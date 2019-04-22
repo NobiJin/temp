@@ -1,0 +1,3653 @@
+Only in ./linux-3.13.1/arch: alpha
+Only in ./linux-3.13.1/arch: arc
+Only in ./linux-3.13.1/arch: arm
+Only in ./linux-3.13.1/arch: arm64
+Only in ./linux-3.13.1/arch: avr32
+Only in ./linux-3.13.1/arch: blackfin
+Only in ./linux-3.13.1/arch: c6x
+Only in ./linux-3.13.1/arch: cris
+Only in ./linux-3.13.1/arch: frv
+Only in ./linux-3.13.1/arch: .gitignore
+Only in ./linux-3.13.1/arch: hexagon
+Only in ./linux-3.13.1/arch: ia64
+Only in ./linux-3.13.1/arch: Kconfig
+Only in ./linux-3.13.1/arch: m32r
+Only in ./linux-3.13.1/arch: m68k
+Only in ./linux-3.13.1/arch: metag
+Only in ./linux-3.13.1/arch: microblaze
+Only in ./linux-3.13.1/arch: mips
+Only in ./linux-3.13.1/arch: mn10300
+Only in ./linux-3.13.1/arch: openrisc
+Only in ./linux-3.13.1/arch: parisc
+Only in ./linux-3.13.1/arch: powerpc
+Only in ./linux-3.13.1/arch: s390
+Only in ./linux-3.13.1/arch: score
+Only in ./linux-3.13.1/arch: sh
+Only in ./linux-3.13.1/arch: sparc
+Only in ./linux-3.13.1/arch: tile
+Only in ./linux-3.13.1/arch: um
+Only in ./linux-3.13.1/arch: unicore32
+Only in ./linux-3.13.1/arch/x86: boot
+Only in ./linux-3.13.1/arch/x86: configs
+Only in ./linux-3.13.1/arch/x86: crypto
+Only in ./linux-3.13.1/arch/x86: .gitignore
+Only in ./linux-3.13.1/arch/x86: ia32
+Only in ./linux-3.13.1/arch/x86: include
+Only in ./linux-3.13.1/arch/x86: Kbuild
+Only in ./linux-3.13.1/arch/x86: Kconfig
+Only in ./linux-3.13.1/arch/x86: Kconfig.cpu
+Only in ./linux-3.13.1/arch/x86: Kconfig.debug
+Only in ./linux-3.13.1/arch/x86: kernel
+Only in ./linux-3.13.1/arch/x86: kvm
+Only in ./linux-3.13.1/arch/x86: lguest
+Only in ./linux-3.13.1/arch/x86: lib
+Only in ./linux-3.13.1/arch/x86: Makefile
+Only in ./linux-3.13.1/arch/x86: Makefile_32.cpu
+Only in ./linux-3.13.1/arch/x86: Makefile.um
+Only in ./linux-3.13.1/arch/x86: math-emu
+Only in ./linux-3.13.1/arch/x86: mm
+Only in ./linux-3.13.1/arch/x86: net
+Only in ./linux-3.13.1/arch/x86: oprofile
+Only in ./linux-3.13.1/arch/x86: pci
+Only in ./linux-3.13.1/arch/x86: platform
+Only in ./linux-3.13.1/arch/x86: power
+Only in ./linux-3.13.1/arch/x86: realmode
+Only in ./linux-3.13.1/arch/x86/syscalls: Makefile
+diff -rup ./linux-3.13.1/arch/x86/syscalls/syscall_32.tbl ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/arch/x86/syscalls/syscall_32.tbl
+--- ./linux-3.13.1/arch/x86/syscalls/syscall_32.tbl	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/arch/x86/syscalls/syscall_32.tbl	2017-07-31 09:44:30.000000000 +0800
+@@ -357,3 +357,6 @@
+ 348	i386	process_vm_writev	sys_process_vm_writev		compat_sys_process_vm_writev
+ 349	i386	kcmp			sys_kcmp
+ 350	i386	finit_module		sys_finit_module
++351	i386	gettimeofdayreal	sys_gettimeofdayreal
++352	i386	gettimepid		sys_gettimepid
++353	i386	select_dialated		sys_select_dialated
+diff -rup ./linux-3.13.1/arch/x86/syscalls/syscall_64.tbl ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/arch/x86/syscalls/syscall_64.tbl
+--- ./linux-3.13.1/arch/x86/syscalls/syscall_64.tbl	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/arch/x86/syscalls/syscall_64.tbl	2017-07-31 09:44:30.000000000 +0800
+@@ -320,6 +320,9 @@
+ 311	64	process_vm_writev	sys_process_vm_writev
+ 312	common	kcmp			sys_kcmp
+ 313	common	finit_module		sys_finit_module
++314     common  gettimeofdayreal        sys_gettimeofdayreal
++315 	common	gettimepid		sys_gettimepid
++316	common	select_dialated		sys_select_dialated
+ 
+ #
+ # x32-specific system call numbers start at 512 to avoid cache impact
+Only in ./linux-3.13.1/arch/x86/syscalls: syscallhdr.sh
+Only in ./linux-3.13.1/arch/x86/syscalls: syscalltbl.sh
+Only in ./linux-3.13.1/arch/x86: tools
+Only in ./linux-3.13.1/arch/x86: um
+Only in ./linux-3.13.1/arch/x86/vdso: checkundef.sh
+Only in ./linux-3.13.1/arch/x86/vdso: .gitignore
+Only in ./linux-3.13.1/arch/x86/vdso: Makefile
+diff -rup ./linux-3.13.1/arch/x86/vdso/vclock_gettime.c ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/arch/x86/vdso/vclock_gettime.c
+--- ./linux-3.13.1/arch/x86/vdso/vclock_gettime.c	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/arch/x86/vdso/vclock_gettime.c	2017-07-31 09:44:30.000000000 +0800
+@@ -150,6 +150,13 @@ notrace static long vdso_fallback_gtod(s
+ 	return ret;
+ }
+ 
++notrace static long vdso_fallback_c_gettime(time_t *t)
++{
++	long ret;
++	asm("syscall" : "=a" (ret) : "0" (__NR_time), "D" (t) : "memory");
++	return ret;
++}
++
+ 
+ notrace static inline u64 vgetsns(int *mode)
+ {
+@@ -288,11 +295,13 @@ int gettimeofday(struct timeval *, struc
+ notrace time_t __vdso_time(time_t *t)
+ {
+ 	/* This is atomic on x86_64 so we don't need any locks. */
+-	time_t result = ACCESS_ONCE(VVAR(vsyscall_gtod_data).wall_time_sec);
++	/*time_t result = ACCESS_ONCE(VVAR(vsyscall_gtod_data).wall_time_sec);
+ 
+ 	if (t)
+ 		*t = result;
+ 	return result;
++    */
++	return vdso_fallback_c_gettime(t);
+ }
+ int time(time_t *t)
+ 	__attribute__((weak, alias("__vdso_time")));
+Only in ./linux-3.13.1/arch/x86/vdso: vdso32
+Only in ./linux-3.13.1/arch/x86/vdso: vdso32.S
+Only in ./linux-3.13.1/arch/x86/vdso: vdso32-setup.c
+Only in ./linux-3.13.1/arch/x86/vdso: vdso-layout.lds.S
+diff -rup ./linux-3.13.1/arch/x86/vdso/vdso.lds.S ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/arch/x86/vdso/vdso.lds.S
+--- ./linux-3.13.1/arch/x86/vdso/vdso.lds.S	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/arch/x86/vdso/vdso.lds.S	2017-07-31 09:44:30.000000000 +0800
+@@ -17,10 +17,6 @@
+ VERSION {
+ 	LINUX_2.6 {
+ 	global:
+-		clock_gettime;
+-		__vdso_clock_gettime;
+-		gettimeofday;
+-		__vdso_gettimeofday;
+ 		getcpu;
+ 		__vdso_getcpu;
+ 		time;
+Only in ./linux-3.13.1/arch/x86/vdso: vdso-note.S
+Only in ./linux-3.13.1/arch/x86/vdso: vdso.S
+diff -rup ./linux-3.13.1/arch/x86/vdso/vdsox32.lds.S ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/arch/x86/vdso/vdsox32.lds.S
+--- ./linux-3.13.1/arch/x86/vdso/vdsox32.lds.S	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/arch/x86/vdso/vdsox32.lds.S	2017-07-31 09:44:30.000000000 +0800
+@@ -17,8 +17,6 @@
+ VERSION {
+ 	LINUX_2.6 {
+ 	global:
+-		__vdso_clock_gettime;
+-		__vdso_gettimeofday;
+ 		__vdso_getcpu;
+ 		__vdso_time;
+ 	local: *;
+Only in ./linux-3.13.1/arch/x86/vdso: vdsox32.S
+Only in ./linux-3.13.1/arch/x86/vdso: vgetcpu.c
+Only in ./linux-3.13.1/arch/x86/vdso: vma.c
+Only in ./linux-3.13.1/arch/x86: video
+Only in ./linux-3.13.1/arch/x86: xen
+Only in ./linux-3.13.1/arch: xtensa
+Only in ./linux-3.13.1/: block
+Only in ./linux-3.13.1/: COPYING
+Only in ./linux-3.13.1/: CREDITS
+Only in ./linux-3.13.1/: crypto
+Only in ./linux-3.13.1/: Documentation
+Only in ./linux-3.13.1/drivers: accessibility
+Only in ./linux-3.13.1/drivers: acpi
+Only in ./linux-3.13.1/drivers: amba
+Only in ./linux-3.13.1/drivers: ata
+Only in ./linux-3.13.1/drivers: atm
+Only in ./linux-3.13.1/drivers: auxdisplay
+Only in ./linux-3.13.1/drivers: base
+Only in ./linux-3.13.1/drivers: bcma
+Only in ./linux-3.13.1/drivers: block
+Only in ./linux-3.13.1/drivers: bluetooth
+Only in ./linux-3.13.1/drivers: bus
+Only in ./linux-3.13.1/drivers: cdrom
+Only in ./linux-3.13.1/drivers: char
+Only in ./linux-3.13.1/drivers: clk
+Only in ./linux-3.13.1/drivers: clocksource
+Only in ./linux-3.13.1/drivers: connector
+Only in ./linux-3.13.1/drivers: cpufreq
+Only in ./linux-3.13.1/drivers: cpuidle
+Only in ./linux-3.13.1/drivers: crypto
+Only in ./linux-3.13.1/drivers: dca
+Only in ./linux-3.13.1/drivers: devfreq
+Only in ./linux-3.13.1/drivers: dio
+Only in ./linux-3.13.1/drivers: dma
+Only in ./linux-3.13.1/drivers: edac
+Only in ./linux-3.13.1/drivers: eisa
+Only in ./linux-3.13.1/drivers: extcon
+Only in ./linux-3.13.1/drivers: firewire
+Only in ./linux-3.13.1/drivers: firmware
+Only in ./linux-3.13.1/drivers: fmc
+Only in ./linux-3.13.1/drivers: gpio
+Only in ./linux-3.13.1/drivers: gpu
+Only in ./linux-3.13.1/drivers: hid
+Only in ./linux-3.13.1/drivers: hsi
+Only in ./linux-3.13.1/drivers: hv
+Only in ./linux-3.13.1/drivers: hwmon
+Only in ./linux-3.13.1/drivers: hwspinlock
+Only in ./linux-3.13.1/drivers: i2c
+Only in ./linux-3.13.1/drivers: ide
+Only in ./linux-3.13.1/drivers: idle
+Only in ./linux-3.13.1/drivers: iio
+Only in ./linux-3.13.1/drivers: infiniband
+Only in ./linux-3.13.1/drivers: input
+Only in ./linux-3.13.1/drivers: iommu
+Only in ./linux-3.13.1/drivers: ipack
+Only in ./linux-3.13.1/drivers: irqchip
+Only in ./linux-3.13.1/drivers: isdn
+Only in ./linux-3.13.1/drivers: Kconfig
+Only in ./linux-3.13.1/drivers: leds
+Only in ./linux-3.13.1/drivers: lguest
+Only in ./linux-3.13.1/drivers: macintosh
+Only in ./linux-3.13.1/drivers: mailbox
+Only in ./linux-3.13.1/drivers: Makefile
+Only in ./linux-3.13.1/drivers: md
+Only in ./linux-3.13.1/drivers: media
+Only in ./linux-3.13.1/drivers: memory
+Only in ./linux-3.13.1/drivers: memstick
+Only in ./linux-3.13.1/drivers: message
+Only in ./linux-3.13.1/drivers: mfd
+Only in ./linux-3.13.1/drivers: misc
+Only in ./linux-3.13.1/drivers: mmc
+Only in ./linux-3.13.1/drivers: mtd
+Only in ./linux-3.13.1/drivers/net: appletalk
+Only in ./linux-3.13.1/drivers/net: arcnet
+Only in ./linux-3.13.1/drivers/net: bonding
+Only in ./linux-3.13.1/drivers/net: caif
+Only in ./linux-3.13.1/drivers/net: can
+Only in ./linux-3.13.1/drivers/net: cris
+Only in ./linux-3.13.1/drivers/net: dsa
+Only in ./linux-3.13.1/drivers/net: dummy.c
+Only in ./linux-3.13.1/drivers/net: eql.c
+Only in ./linux-3.13.1/drivers/net: ethernet
+Only in ./linux-3.13.1/drivers/net: fddi
+Only in ./linux-3.13.1/drivers/net: hamradio
+Only in ./linux-3.13.1/drivers/net: hippi
+Only in ./linux-3.13.1/drivers/net: hyperv
+Only in ./linux-3.13.1/drivers/net: ieee802154
+Only in ./linux-3.13.1/drivers/net: ifb.c
+Only in ./linux-3.13.1/drivers/net: irda
+Only in ./linux-3.13.1/drivers/net: Kconfig
+Only in ./linux-3.13.1/drivers/net: LICENSE.SRC
+diff -rup ./linux-3.13.1/drivers/net/loopback.c ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/drivers/net/loopback.c
+--- ./linux-3.13.1/drivers/net/loopback.c	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/drivers/net/loopback.c	2017-07-31 09:44:30.000000000 +0800
+@@ -75,6 +75,8 @@ static netdev_tx_t loopback_xmit(struct
+ 	struct pcpu_lstats *lb_stats;
+ 	int len;
+ 
++
++
+ 	skb_orphan(skb);
+ 
+ 	/* Before queueing this packet to netif_rx(),
+Only in ./linux-3.13.1/drivers/net: macvlan.c
+Only in ./linux-3.13.1/drivers/net: macvtap.c
+Only in ./linux-3.13.1/drivers/net: Makefile
+Only in ./linux-3.13.1/drivers/net: mdio.c
+Only in ./linux-3.13.1/drivers/net: mii.c
+Only in ./linux-3.13.1/drivers/net: netconsole.c
+Only in ./linux-3.13.1/drivers/net: nlmon.c
+Only in ./linux-3.13.1/drivers/net: ntb_netdev.c
+Only in ./linux-3.13.1/drivers/net: phy
+Only in ./linux-3.13.1/drivers/net: plip
+Only in ./linux-3.13.1/drivers/net: ppp
+Only in ./linux-3.13.1/drivers/net: rionet.c
+Only in ./linux-3.13.1/drivers/net: sb1000.c
+Only in ./linux-3.13.1/drivers/net: slip
+Only in ./linux-3.13.1/drivers/net: Space.c
+Only in ./linux-3.13.1/drivers/net: sungem_phy.c
+Only in ./linux-3.13.1/drivers/net: team
+Only in ./linux-3.13.1/drivers/net: tun.c
+Only in ./linux-3.13.1/drivers/net: usb
+Only in ./linux-3.13.1/drivers/net: veth.c
+Only in ./linux-3.13.1/drivers/net: virtio_net.c
+Only in ./linux-3.13.1/drivers/net: vmxnet3
+Only in ./linux-3.13.1/drivers/net: vxlan.c
+Only in ./linux-3.13.1/drivers/net: wan
+Only in ./linux-3.13.1/drivers/net: wimax
+Only in ./linux-3.13.1/drivers/net: wireless
+Only in ./linux-3.13.1/drivers/net: xen-netback
+Only in ./linux-3.13.1/drivers/net: xen-netfront.c
+Only in ./linux-3.13.1/drivers: nfc
+Only in ./linux-3.13.1/drivers: ntb
+Only in ./linux-3.13.1/drivers: nubus
+Only in ./linux-3.13.1/drivers: of
+Only in ./linux-3.13.1/drivers: oprofile
+Only in ./linux-3.13.1/drivers: parisc
+Only in ./linux-3.13.1/drivers: parport
+Only in ./linux-3.13.1/drivers: pci
+Only in ./linux-3.13.1/drivers: pcmcia
+Only in ./linux-3.13.1/drivers: phy
+Only in ./linux-3.13.1/drivers: pinctrl
+Only in ./linux-3.13.1/drivers: platform
+Only in ./linux-3.13.1/drivers: pnp
+Only in ./linux-3.13.1/drivers: power
+Only in ./linux-3.13.1/drivers: powercap
+Only in ./linux-3.13.1/drivers: pps
+Only in ./linux-3.13.1/drivers: ps3
+Only in ./linux-3.13.1/drivers: ptp
+Only in ./linux-3.13.1/drivers: pwm
+Only in ./linux-3.13.1/drivers: rapidio
+Only in ./linux-3.13.1/drivers: regulator
+Only in ./linux-3.13.1/drivers: remoteproc
+Only in ./linux-3.13.1/drivers: reset
+Only in ./linux-3.13.1/drivers: rpmsg
+Only in ./linux-3.13.1/drivers: rtc
+Only in ./linux-3.13.1/drivers: s390
+Only in ./linux-3.13.1/drivers: sbus
+Only in ./linux-3.13.1/drivers: scsi
+Only in ./linux-3.13.1/drivers: sfi
+Only in ./linux-3.13.1/drivers: sh
+Only in ./linux-3.13.1/drivers: sn
+Only in ./linux-3.13.1/drivers: spi
+Only in ./linux-3.13.1/drivers: ssb
+Only in ./linux-3.13.1/drivers: staging
+Only in ./linux-3.13.1/drivers: target
+Only in ./linux-3.13.1/drivers: tc
+Only in ./linux-3.13.1/drivers: thermal
+Only in ./linux-3.13.1/drivers: tty
+Only in ./linux-3.13.1/drivers: uio
+Only in ./linux-3.13.1/drivers: usb
+Only in ./linux-3.13.1/drivers: uwb
+Only in ./linux-3.13.1/drivers: vfio
+Only in ./linux-3.13.1/drivers: vhost
+Only in ./linux-3.13.1/drivers: video
+Only in ./linux-3.13.1/drivers: virt
+Only in ./linux-3.13.1/drivers: virtio
+Only in ./linux-3.13.1/drivers: vlynq
+Only in ./linux-3.13.1/drivers: vme
+Only in ./linux-3.13.1/drivers: w1
+Only in ./linux-3.13.1/drivers: watchdog
+Only in ./linux-3.13.1/drivers: xen
+Only in ./linux-3.13.1/drivers: zorro
+Only in ./linux-3.13.1/: firmware
+Only in ./linux-3.13.1/fs: 9p
+Only in ./linux-3.13.1/fs: adfs
+Only in ./linux-3.13.1/fs: affs
+Only in ./linux-3.13.1/fs: afs
+Only in ./linux-3.13.1/fs: aio.c
+Only in ./linux-3.13.1/fs: anon_inodes.c
+Only in ./linux-3.13.1/fs: attr.c
+Only in ./linux-3.13.1/fs: autofs4
+Only in ./linux-3.13.1/fs: bad_inode.c
+Only in ./linux-3.13.1/fs: befs
+Only in ./linux-3.13.1/fs: bfs
+Only in ./linux-3.13.1/fs: binfmt_aout.c
+Only in ./linux-3.13.1/fs: binfmt_elf.c
+Only in ./linux-3.13.1/fs: binfmt_elf_fdpic.c
+Only in ./linux-3.13.1/fs: binfmt_em86.c
+Only in ./linux-3.13.1/fs: binfmt_flat.c
+Only in ./linux-3.13.1/fs: binfmt_misc.c
+Only in ./linux-3.13.1/fs: binfmt_script.c
+Only in ./linux-3.13.1/fs: binfmt_som.c
+Only in ./linux-3.13.1/fs: bio.c
+Only in ./linux-3.13.1/fs: bio-integrity.c
+Only in ./linux-3.13.1/fs: block_dev.c
+Only in ./linux-3.13.1/fs: btrfs
+Only in ./linux-3.13.1/fs: buffer.c
+Only in ./linux-3.13.1/fs: cachefiles
+Only in ./linux-3.13.1/fs: ceph
+Only in ./linux-3.13.1/fs: char_dev.c
+Only in ./linux-3.13.1/fs: cifs
+Only in ./linux-3.13.1/fs: coda
+Only in ./linux-3.13.1/fs: compat_binfmt_elf.c
+Only in ./linux-3.13.1/fs: compat.c
+Only in ./linux-3.13.1/fs: compat_ioctl.c
+Only in ./linux-3.13.1/fs: configfs
+Only in ./linux-3.13.1/fs: coredump.c
+Only in ./linux-3.13.1/fs: coredump.h
+Only in ./linux-3.13.1/fs: cramfs
+Only in ./linux-3.13.1/fs: dcache.c
+Only in ./linux-3.13.1/fs: dcookies.c
+Only in ./linux-3.13.1/fs: debugfs
+Only in ./linux-3.13.1/fs: devpts
+Only in ./linux-3.13.1/fs: direct-io.c
+Only in ./linux-3.13.1/fs: dlm
+Only in ./linux-3.13.1/fs: drop_caches.c
+Only in ./linux-3.13.1/fs: ecryptfs
+Only in ./linux-3.13.1/fs: efivarfs
+Only in ./linux-3.13.1/fs: efs
+Only in ./linux-3.13.1/fs: eventfd.c
+diff -rup ./linux-3.13.1/fs/eventpoll.c ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/fs/eventpoll.c
+--- ./linux-3.13.1/fs/eventpoll.c	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/fs/eventpoll.c	2017-07-31 09:44:30.000000000 +0800
+@@ -1568,6 +1568,66 @@ static inline struct timespec ep_set_mst
+ 	return timespec_add_safe(now, ts);
+ }
+ 
++
++s64 curr_dilated_time(void)
++{
++	s64 temp_past_physical_time;
++	s32 rem;
++	s64 real_running_time;
++	s64 dilated_running_time;
++	s64 now;
++	struct timeval ktv;
++	do_gettimeofday(&ktv);
++	struct task_struct* task;
++	task = current;
++	unsigned long flags;
++	now = timeval_to_ns(&ktv);	
++	if(task->virt_start_time != 0){
++		if (task->group_leader != task) { //use virtual time of the leader thread
++                       	task = task->group_leader;
++               	}
++
++		s64 ppp = task->past_physical_time;
++		s64 past_virtual_time = task->past_virtual_time;
++		s64 freeze_time = task->freeze_time;
++
++		//spin_lock_irqsave(&task->dialation_lock,flags);
++		if(freeze_time == 0){
++			real_running_time = now - task->virt_start_time;
++			temp_past_physical_time = ppp;
++		}
++		else{
++			real_running_time = freeze_time - task->virt_start_time;	
++			temp_past_physical_time = ppp + (now - freeze_time);
++		}
++
++		//overriding
++		real_running_time = now - task->virt_start_time;
++
++		if (task->dilation_factor > 0) {
++			dilated_running_time = div_s64_rem((real_running_time - temp_past_physical_time)*1000 ,task->dilation_factor,&rem) + past_virtual_time;
++			now = dilated_running_time + task->virt_start_time;
++		}
++		else if (task->dilation_factor < 0) {
++			dilated_running_time = div_s64_rem((real_running_time - temp_past_physical_time)*(task->dilation_factor*-1),1000,&rem) + past_virtual_time;
++			now =  dilated_running_time + task->virt_start_time;
++		}
++		else {
++			dilated_running_time = (real_running_time - temp_past_physical_time) + past_virtual_time;
++			now = dilated_running_time + task->virt_start_time;
++		}
++
++		//spin_unlock_irqrestore(&task->dialation_lock,flags);
++	
++	}
++	return now;	
++
++
++
++}
++
++
++
+ /**
+  * ep_poll - Retrieves ready events, and delivers them to the caller supplied
+  *           event buffer.
+@@ -1594,9 +1654,20 @@ static int ep_poll(struct eventpoll *ep,
+ 	wait_queue_t wait;
+ 	ktime_t expires, *to = NULL;
+ 
++	struct timespec sleep_time;
++	ktime_t virt_time_expire;
++	int is_dialated = 0;
++	int rc;
++        s64 curr_virtual_time = curr_dilated_time();
++	s64 virt_wakeup_time = curr_virtual_time + timeout*1000000;
++	if(current->virt_start_time != 0 && timeout > 0) {
++		is_dialated = 1;
++		printk(KERN_INFO "Epoll Dialated: Pid = %d, timeout = %ld\n",current->pid, timeout);
++	}
++
+ 	if (timeout > 0) {
+-		struct timespec end_time = ep_set_mstimeout(timeout);
+ 
++		struct timespec end_time = ep_set_mstimeout(timeout);
+ 		slack = select_estimate_accuracy(&end_time);
+ 		to = &expires;
+ 		*to = timespec_to_ktime(end_time);
+@@ -1619,28 +1690,58 @@ fetch_events:
+ 		 * We need to sleep here, and we will be wake up by
+ 		 * ep_poll_callback() when events will become available.
+ 		 */
++
++		
+ 		init_waitqueue_entry(&wait, current);
+ 		__add_wait_queue_exclusive(&ep->wq, &wait);
++		
+ 
+ 		for (;;) {
+-			/*
+-			 * We don't want to sleep if the ep_poll_callback() sends us
+-			 * a wakeup in between. That's why we set the task state
+-			 * to TASK_INTERRUPTIBLE before doing the checks.
+-			 */
++
++
+ 			set_current_state(TASK_INTERRUPTIBLE);
+ 			if (ep_events_available(ep) || timed_out)
+ 				break;
+-			if (signal_pending(current)) {
++			if (signal_pending(current) && !is_dialated) {
+ 				res = -EINTR;
+ 				break;
+ 			}
+ 
+ 			spin_unlock_irqrestore(&ep->lock, flags);
+-			if (!schedule_hrtimeout_range(to, slack, HRTIMER_MODE_ABS))
+-				timed_out = 1;
++			
++			if(current->virt_start_time != 0 && timeout > 0) {
++				is_dialated = 1;
++				sleep_time.tv_sec = 0;
++				sleep_time.tv_nsec = 10000000;
++				virt_time_expire = timespec_to_ktime(sleep_time);
++				to = &virt_time_expire;
++				set_current_state(TASK_INTERRUPTIBLE);
++				if(!schedule_hrtimeout_range(to,0,HRTIMER_MODE_REL)){
++				
++					printk(KERN_INFO "Epoll Dialated: Pid = %d, Intermediary wakeup\n", current->pid);
++					if(curr_dilated_time() > virt_wakeup_time) {
++						printk(KERN_INFO "Epoll Dialated: Pid = %d, Timeout expired\n", current->pid);
++						timed_out = 1;
++					}
++
++				}
++				else{
++					if(curr_dilated_time() > virt_wakeup_time){
++						timed_out = 1;
++					}
++
++				}
++
++			}
++			else{
++				if (!schedule_hrtimeout_range(to, slack, HRTIMER_MODE_ABS))
++					timed_out = 1;
++
++			}
+ 
+ 			spin_lock_irqsave(&ep->lock, flags);
++
++			
+ 		}
+ 		__remove_wait_queue(&ep->wq, &wait);
+ 
+Only in ./linux-3.13.1/fs: exec.c
+Only in ./linux-3.13.1/fs: exofs
+Only in ./linux-3.13.1/fs: exportfs
+Only in ./linux-3.13.1/fs: ext2
+Only in ./linux-3.13.1/fs: ext3
+Only in ./linux-3.13.1/fs: ext4
+Only in ./linux-3.13.1/fs: f2fs
+Only in ./linux-3.13.1/fs: fat
+Only in ./linux-3.13.1/fs: fcntl.c
+Only in ./linux-3.13.1/fs: fhandle.c
+Only in ./linux-3.13.1/fs: file.c
+Only in ./linux-3.13.1/fs: filesystems.c
+Only in ./linux-3.13.1/fs: file_table.c
+Only in ./linux-3.13.1/fs: freevxfs
+Only in ./linux-3.13.1/fs: fscache
+Only in ./linux-3.13.1/fs: fs_struct.c
+Only in ./linux-3.13.1/fs: fs-writeback.c
+Only in ./linux-3.13.1/fs: fuse
+Only in ./linux-3.13.1/fs: generic_acl.c
+Only in ./linux-3.13.1/fs: gfs2
+Only in ./linux-3.13.1/fs: hfs
+Only in ./linux-3.13.1/fs: hfsplus
+Only in ./linux-3.13.1/fs: hostfs
+Only in ./linux-3.13.1/fs: hpfs
+Only in ./linux-3.13.1/fs: hppfs
+Only in ./linux-3.13.1/fs: hugetlbfs
+Only in ./linux-3.13.1/fs: inode.c
+Only in ./linux-3.13.1/fs: internal.h
+Only in ./linux-3.13.1/fs: ioctl.c
+Only in ./linux-3.13.1/fs: ioprio.c
+Only in ./linux-3.13.1/fs: isofs
+Only in ./linux-3.13.1/fs: jbd
+Only in ./linux-3.13.1/fs: jbd2
+Only in ./linux-3.13.1/fs: jffs2
+Only in ./linux-3.13.1/fs: jfs
+Only in ./linux-3.13.1/fs: Kconfig
+Only in ./linux-3.13.1/fs: Kconfig.binfmt
+Only in ./linux-3.13.1/fs: libfs.c
+Only in ./linux-3.13.1/fs: lockd
+Only in ./linux-3.13.1/fs: locks.c
+Only in ./linux-3.13.1/fs: logfs
+Only in ./linux-3.13.1/fs: Makefile
+Only in ./linux-3.13.1/fs: mbcache.c
+Only in ./linux-3.13.1/fs: minix
+Only in ./linux-3.13.1/fs: mount.h
+Only in ./linux-3.13.1/fs: mpage.c
+Only in ./linux-3.13.1/fs: namei.c
+Only in ./linux-3.13.1/fs: namespace.c
+Only in ./linux-3.13.1/fs: ncpfs
+Only in ./linux-3.13.1/fs: nfs
+Only in ./linux-3.13.1/fs: nfs_common
+Only in ./linux-3.13.1/fs: nfsd
+Only in ./linux-3.13.1/fs: nilfs2
+Only in ./linux-3.13.1/fs: nls
+Only in ./linux-3.13.1/fs: no-block.c
+Only in ./linux-3.13.1/fs: notify
+Only in ./linux-3.13.1/fs: ntfs
+Only in ./linux-3.13.1/fs: ocfs2
+Only in ./linux-3.13.1/fs: omfs
+Only in ./linux-3.13.1/fs: open.c
+Only in ./linux-3.13.1/fs: openpromfs
+Only in ./linux-3.13.1/fs: pipe.c
+Only in ./linux-3.13.1/fs: pnode.c
+Only in ./linux-3.13.1/fs: pnode.h
+Only in ./linux-3.13.1/fs: posix_acl.c
+Only in ./linux-3.13.1/fs: proc
+Only in ./linux-3.13.1/fs: proc_namespace.c
+Only in ./linux-3.13.1/fs: pstore
+Only in ./linux-3.13.1/fs: qnx4
+Only in ./linux-3.13.1/fs: qnx6
+Only in ./linux-3.13.1/fs: quota
+Only in ./linux-3.13.1/fs: ramfs
+Only in ./linux-3.13.1/fs: readdir.c
+Only in ./linux-3.13.1/fs: read_write.c
+Only in ./linux-3.13.1/fs: reiserfs
+Only in ./linux-3.13.1/fs: romfs
+diff -rup ./linux-3.13.1/fs/select.c ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/fs/select.c
+--- ./linux-3.13.1/fs/select.c	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/fs/select.c	2017-07-31 09:44:30.000000000 +0800
+@@ -643,6 +643,19 @@ SYSCALL_DEFINE5(select, int, n, fd_set _
+ 	return ret;
+ }
+ 
++SYSCALL_DEFINE5(select_dialated, int, n, fd_set __user *, inp, fd_set __user *, outp,
++                fd_set __user *, exp, struct timeval __user *, tvp)
++{
++        // just replicate the functionality of select if it is called. This function
++        // should never get called if TimeKeeper is running. It behaves like normal
++        // select if it is called when TimeKeeper is not running.
++
++
++        return sys_select(n,inp,outp,exp,tvp);
++
++}
++
++
+ static long do_pselect(int n, fd_set __user *inp, fd_set __user *outp,
+ 		       fd_set __user *exp, struct timespec __user *tsp,
+ 		       const sigset_t __user *sigmask, size_t sigsetsize)
+Only in ./linux-3.13.1/fs: seq_file.c
+Only in ./linux-3.13.1/fs: signalfd.c
+Only in ./linux-3.13.1/fs: splice.c
+Only in ./linux-3.13.1/fs: squashfs
+Only in ./linux-3.13.1/fs: stack.c
+Only in ./linux-3.13.1/fs: stat.c
+Only in ./linux-3.13.1/fs: statfs.c
+Only in ./linux-3.13.1/fs: super.c
+Only in ./linux-3.13.1/fs: sync.c
+Only in ./linux-3.13.1/fs: sysfs
+Only in ./linux-3.13.1/fs: sysv
+diff -rup ./linux-3.13.1/fs/timerfd.c ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/fs/timerfd.c
+--- ./linux-3.13.1/fs/timerfd.c	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/fs/timerfd.c	2017-07-31 09:44:30.000000000 +0800
+@@ -40,11 +40,54 @@ struct timerfd_ctx {
+ 	struct rcu_head rcu;
+ 	struct list_head clist;
+ 	bool might_cancel;
++	struct task_struct * owner_task;
++	s64 wakeup_time;
+ };
+ 
+ static LIST_HEAD(cancel_list);
+ static DEFINE_SPINLOCK(cancel_lock);
+ 
++s64 get_dilated_task_time(struct task_struct * task)
++{
++	s64 temp_past_physical_time;
++	struct timeval tv;
++
++	do_gettimeofday(&tv);
++	s64 now = timeval_to_ns(&tv);
++
++	if(task->virt_start_time != 0){
++		if (task->group_leader != task) { //use virtual time of the leader thread
++                       	task = task->group_leader;
++               	}
++	
++		s32 rem;
++		s64 real_running_time;
++		s64 dilated_running_time;
++		real_running_time = now - task->virt_start_time;
++		if (task->freeze_time != 0)
++			temp_past_physical_time = task->past_physical_time + (now - task->freeze_time);
++		else
++			temp_past_physical_time = task->past_physical_time;
++
++		if (task->dilation_factor > 0) {
++			dilated_running_time = div_s64_rem( (real_running_time - temp_past_physical_time)*1000 ,task->dilation_factor,&rem) + task->past_virtual_time;
++			now = dilated_running_time + task->virt_start_time;
++		}
++		else if (task->dilation_factor < 0) {
++			dilated_running_time = div_s64_rem( (real_running_time - temp_past_physical_time)*(task->dilation_factor*-1),1000,&rem) + task->past_virtual_time;
++			now =  dilated_running_time + task->virt_start_time;
++		}
++		else {
++			dilated_running_time = (real_running_time - temp_past_physical_time) + task->past_virtual_time;
++			now = dilated_running_time + task->virt_start_time;
++		}
++	
++	}
++
++	return now;
++
++}
++
+ static inline bool isalarm(struct timerfd_ctx *ctx)
+ {
+ 	return ctx->clockid == CLOCK_REALTIME_ALARM ||
+@@ -59,7 +102,7 @@ static inline bool isalarm(struct timerf
+ static void timerfd_triggered(struct timerfd_ctx *ctx)
+ {
+ 	unsigned long flags;
+-
++	
+ 	spin_lock_irqsave(&ctx->wqh.lock, flags);
+ 	ctx->expired = 1;
+ 	ctx->ticks++;
+@@ -71,7 +114,25 @@ static enum hrtimer_restart timerfd_tmrp
+ {
+ 	struct timerfd_ctx *ctx = container_of(htmr, struct timerfd_ctx,
+ 					       t.tmr);
++
++	s64 dilated_running_time;
++	struct task_struct * owner_task = ctx->owner_task;
++	if(owner_task->virt_start_time != 0 ){
++		dilated_running_time = get_dilated_task_time(owner_task);
++		if(ctx->wakeup_time <= dilated_running_time){
++			timerfd_triggered(ctx);
++			printk(KERN_INFO "TimerFD: Waking up dilated task. Pid = %d. Wakeup time = %lu. Interval = %lu\n", owner_task->pid, ctx->wakeup_time,ktime_to_ns(ctx->tintv));
++			return HRTIMER_NORESTART;
++		}
++		else{
++			hrtimer_forward_now(&ctx->t.tmr,ns_to_ktime(100000));
++			return HRTIMER_RESTART;
++		}
++
++	}
++	else{
+ 	timerfd_triggered(ctx);
++	}
+ 	return HRTIMER_NORESTART;
+ }
+ 
+@@ -80,7 +141,26 @@ static enum alarmtimer_restart timerfd_a
+ {
+ 	struct timerfd_ctx *ctx = container_of(alarm, struct timerfd_ctx,
+ 					       t.alarm);
++	//timerfd_triggered(ctx);
++
++	s64 dilated_running_time;
++	struct task_struct * owner_task = ctx->owner_task;
++	if(owner_task->virt_start_time != 0 ){
++		dilated_running_time = get_dilated_task_time(owner_task);
++		if(ctx->wakeup_time <= dilated_running_time){
++			timerfd_triggered(ctx);
++			printk(KERN_INFO "TimerFD: Waking up dilated alarm task. Pid = %d\n", owner_task->pid);
++			return ALARMTIMER_NORESTART;
++		}
++		else{
++			hrtimer_forward_now(&ctx->t.tmr,ns_to_ktime(100000));
++			return ALARMTIMER_RESTART;
++		}
++
++	}
++	else{
+ 	timerfd_triggered(ctx);
++	}
+ 	return ALARMTIMER_NORESTART;
+ }
+ 
+@@ -163,10 +243,42 @@ static int timerfd_setup(struct timerfd_
+ 	enum hrtimer_mode htmode;
+ 	ktime_t texp;
+ 	int clockid = ctx->clockid;
++	s64 relative_expiry_duration = 1000000;
++	s64 curr_dilated_time = 0;
+ 
+ 	htmode = (flags & TFD_TIMER_ABSTIME) ?
+ 		HRTIMER_MODE_ABS: HRTIMER_MODE_REL;
+ 
++	if(ctx->owner_task->virt_start_time != 0){
++
++		if (flags & TFD_TIMER_ABSTIME){
++			ctx->wakeup_time = timespec_to_ns(&ktmr->it_value);
++			curr_dilated_time = get_dilated_task_time(ctx->owner_task);
++			if(curr_dilated_time >= ctx->wakeup_time) {
++				relative_expiry_duration = 0;
++			}
++			else {
++				relative_expiry_duration = ctx->wakeup_time - curr_dilated_time;
++				//relative_expiry_duration = 1000000;
++			}
++			if(relative_expiry_duration > 0) {
++                		printk(KERN_INFO "TimerFD: ABS Setting up timer fire period %llu, Wakeup Time = %llu, Curr time = %llu. Current = %d, owner = %d\n", relative_expiry_duration, ctx->wakeup_time, curr_dilated_time, current->pid, ctx->owner_task->pid);
++			}
++
++		}
++		else{
++			curr_dilated_time = get_dilated_task_time(ctx->owner_task);
++			relative_expiry_duration = timespec_to_ns(&ktmr->it_value);
++			ctx->wakeup_time = curr_dilated_time + relative_expiry_duration;
++
++			if(relative_expiry_duration > 0) {
++                		printk(KERN_INFO "TimerFD: REL Setting up timer fire period %llu, Wakeup Time = %llu, Curr time = %llu. Current = %d, owner = %d\n", relative_expiry_duration, ctx->wakeup_time, curr_dilated_time, current->pid, ctx->owner_task->pid);
++			}
++
++		}
++
++	}
++
+ 	texp = timespec_to_ktime(ktmr->it_value);
+ 	ctx->expired = 0;
+ 	ctx->ticks = 0;
+@@ -178,8 +290,15 @@ static int timerfd_setup(struct timerfd_
+ 			   ALARM_REALTIME : ALARM_BOOTTIME,
+ 			   timerfd_alarmproc);
+ 	} else {
+-		hrtimer_init(&ctx->t.tmr, clockid, htmode);
+-		hrtimer_set_expires(&ctx->t.tmr, texp);
++
++		if(ctx->owner_task->virt_start_time != 0){
++			hrtimer_init(&ctx->t.tmr, clockid, HRTIMER_MODE_REL);
++			hrtimer_set_expires(&ctx->t.tmr, ns_to_ktime(relative_expiry_duration));
++		}
++		else{
++			hrtimer_init(&ctx->t.tmr, clockid, htmode);
++			hrtimer_set_expires(&ctx->t.tmr, texp);
++		}
+ 		ctx->t.tmr.function = timerfd_tmrproc;
+ 	}
+ 
+@@ -190,7 +309,13 @@ static int timerfd_setup(struct timerfd_
+ 			else
+ 				alarm_start_relative(&ctx->t.alarm, texp);
+ 		} else {
+-			hrtimer_start(&ctx->t.tmr, texp, htmode);
++
++			if(ctx->owner_task->virt_start_time != 0){
++				hrtimer_start(&ctx->t.tmr, ns_to_ktime(relative_expiry_duration), HRTIMER_MODE_REL);
++			}
++			else {
++				hrtimer_start(&ctx->t.tmr, texp, htmode);
++			}
+ 		}
+ 
+ 		if (timerfd_canceled(ctx))
+@@ -219,6 +344,7 @@ static unsigned int timerfd_poll(struct
+ 	unsigned int events = 0;
+ 	unsigned long flags;
+ 
++	//if(ctx->owner_task->virt_start_time != 0)
+ 	poll_wait(file, &ctx->wqh, wait);
+ 
+ 	spin_lock_irqsave(&ctx->wqh.lock, flags);
+@@ -265,6 +391,19 @@ static ssize_t timerfd_read(struct file
+ 			 * callback to avoid DoS attacks specifying a very
+ 			 * short timer period.
+ 			 */
++
++			struct task_struct * owner_task = ctx->owner_task;
++			s64 intervalns;
++			if(owner_task->virt_start_time != 0 ){
++				printk(KERN_INFO "TimerFD: Read operation woken up for dilated task %d, actual wakeup time = %lu\n", owner_task->pid, get_dilated_task_time(owner_task));
++				intervalns = ktime_to_ns(ctx->tintv);
++				
++				//ctx->wakeup_time = ctx->wakeup_time + intervalns;
++				ctx->wakeup_time = get_dilated_task_time(ctx->owner_task) + intervalns;
++
++
++			}
++			
+ 			if (isalarm(ctx)) {
+ 				ticks += alarm_forward_now(
+ 					&ctx->t.alarm, ctx->tintv) - 1;
+@@ -274,6 +413,10 @@ static ssize_t timerfd_read(struct file
+ 							     ctx->tintv) - 1;
+ 				hrtimer_restart(&ctx->t.tmr);
+ 			}
++
++			if(owner_task->virt_start_time != 0 )
++				ticks = ctx->ticks;
++			
+ 		}
+ 		ctx->expired = 0;
+ 		ctx->ticks = 0;
+@@ -336,6 +479,8 @@ SYSCALL_DEFINE2(timerfd_create, int, clo
+ 		hrtimer_init(&ctx->t.tmr, clockid, HRTIMER_MODE_ABS);
+ 
+ 	ctx->moffs = ktime_get_monotonic_offset();
++	ctx->owner_task = current;
++	ctx->wakeup_time = 0;
+ 
+ 	ufd = anon_inode_getfd("[timerfd]", &timerfd_fops, ctx,
+ 			       O_RDWR | (flags & TFD_SHARED_FCNTL_FLAGS));
+@@ -417,11 +562,19 @@ static int do_timerfd_gettime(int ufd, s
+ 	if (ret)
+ 		return ret;
+ 	ctx = f.file->private_data;
++	struct task_struct * owner_task = ctx->owner_task;
+ 
+ 	spin_lock_irq(&ctx->wqh.lock);
+ 	if (ctx->expired && ctx->tintv.tv64) {
+ 		ctx->expired = 0;
+ 
++		
++		s64 intervalns;
++		if(owner_task->virt_start_time != 0 ){
++			intervalns = ktime_to_ns(ctx->tintv);
++			ctx->wakeup_time = ctx->wakeup_time + intervalns;
++		}
++
+ 		if (isalarm(ctx)) {
+ 			ctx->ticks +=
+ 				alarm_forward_now(
+@@ -434,7 +587,22 @@ static int do_timerfd_gettime(int ufd, s
+ 			hrtimer_restart(&ctx->t.tmr);
+ 		}
+ 	}
+-	t->it_value = ktime_to_timespec(timerfd_get_remaining(ctx));
++
++	if(owner_task->virt_start_time != 0) {
++		s64 curr_time = get_dilated_task_time(owner_task);
++		s64 rem_time; 
++		if (owner_task->wakeup_time <= curr_time) {
++			rem_time = 0;
++		}
++		else{
++			rem_time = owner_task->wakeup_time - curr_time;
++		}
++		
++		t->it_value = ns_to_timespec(rem_time);
++	}
++	else
++		t->it_value = ktime_to_timespec(timerfd_get_remaining(ctx));
++
+ 	t->it_interval = ktime_to_timespec(ctx->tintv);
+ 	spin_unlock_irq(&ctx->wqh.lock);
+ 	fdput(f);
+Only in ./linux-3.13.1/fs: ubifs
+Only in ./linux-3.13.1/fs: udf
+Only in ./linux-3.13.1/fs: ufs
+Only in ./linux-3.13.1/fs: utimes.c
+Only in ./linux-3.13.1/fs: xattr_acl.c
+Only in ./linux-3.13.1/fs: xattr.c
+Only in ./linux-3.13.1/fs: xfs
+Only in ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/: get_new_kernel_changes.sh
+Only in ./linux-3.13.1/: .gitignore
+Only in ./linux-3.13.1/include: acpi
+Only in ./linux-3.13.1/include: asm-generic
+Only in ./linux-3.13.1/include: clocksource
+Only in ./linux-3.13.1/include: crypto
+Only in ./linux-3.13.1/include: drm
+Only in ./linux-3.13.1/include: dt-bindings
+Only in ./linux-3.13.1/include: Kbuild
+Only in ./linux-3.13.1/include: keys
+Only in ./linux-3.13.1/include: kvm
+Only in ./linux-3.13.1/include/linux: 8250_pci.h
+Only in ./linux-3.13.1/include/linux: acct.h
+Only in ./linux-3.13.1/include/linux: acpi_dma.h
+Only in ./linux-3.13.1/include/linux: acpi_gpio.h
+Only in ./linux-3.13.1/include/linux: acpi.h
+Only in ./linux-3.13.1/include/linux: acpi_io.h
+Only in ./linux-3.13.1/include/linux: acpi_pmtmr.h
+Only in ./linux-3.13.1/include/linux: adb.h
+Only in ./linux-3.13.1/include/linux: adfs_fs.h
+Only in ./linux-3.13.1/include/linux: aer.h
+Only in ./linux-3.13.1/include/linux: agp_backend.h
+Only in ./linux-3.13.1/include/linux: agpgart.h
+Only in ./linux-3.13.1/include/linux: ahci_platform.h
+Only in ./linux-3.13.1/include/linux: aio.h
+Only in ./linux-3.13.1/include/linux: alarmtimer.h
+Only in ./linux-3.13.1/include/linux: altera_jtaguart.h
+Only in ./linux-3.13.1/include/linux: altera_uart.h
+Only in ./linux-3.13.1/include/linux: amba
+Only in ./linux-3.13.1/include/linux: amd-iommu.h
+Only in ./linux-3.13.1/include/linux: amifd.h
+Only in ./linux-3.13.1/include/linux: amifdreg.h
+Only in ./linux-3.13.1/include/linux: amigaffs.h
+Only in ./linux-3.13.1/include/linux: anon_inodes.h
+Only in ./linux-3.13.1/include/linux: a.out.h
+Only in ./linux-3.13.1/include/linux: apm_bios.h
+Only in ./linux-3.13.1/include/linux: apm-emulation.h
+Only in ./linux-3.13.1/include/linux: apple_bl.h
+Only in ./linux-3.13.1/include/linux: arcdevice.h
+Only in ./linux-3.13.1/include/linux: arm-cci.h
+Only in ./linux-3.13.1/include/linux: asn1_ber_bytecode.h
+Only in ./linux-3.13.1/include/linux: asn1_decoder.h
+Only in ./linux-3.13.1/include/linux: asn1.h
+Only in ./linux-3.13.1/include/linux: assoc_array.h
+Only in ./linux-3.13.1/include/linux: assoc_array_priv.h
+Only in ./linux-3.13.1/include/linux: async.h
+Only in ./linux-3.13.1/include/linux: async_tx.h
+Only in ./linux-3.13.1/include/linux: ata.h
+Only in ./linux-3.13.1/include/linux: atalk.h
+Only in ./linux-3.13.1/include/linux: ata_platform.h
+Only in ./linux-3.13.1/include/linux: ath9k_platform.h
+Only in ./linux-3.13.1/include/linux: atmdev.h
+Only in ./linux-3.13.1/include/linux: atmel-mci.h
+Only in ./linux-3.13.1/include/linux: atmel_pdc.h
+Only in ./linux-3.13.1/include/linux: atmel-pwm-bl.h
+Only in ./linux-3.13.1/include/linux: atmel_pwm.h
+Only in ./linux-3.13.1/include/linux: atmel_serial.h
+Only in ./linux-3.13.1/include/linux: atmel-ssc.h
+Only in ./linux-3.13.1/include/linux: atmel_tc.h
+Only in ./linux-3.13.1/include/linux: atm.h
+Only in ./linux-3.13.1/include/linux: atm_suni.h
+Only in ./linux-3.13.1/include/linux: atm_tcp.h
+Only in ./linux-3.13.1/include/linux: atomic.h
+Only in ./linux-3.13.1/include/linux: attribute_container.h
+Only in ./linux-3.13.1/include/linux: audit.h
+Only in ./linux-3.13.1/include/linux: auto_dev-ioctl.h
+Only in ./linux-3.13.1/include/linux: auto_fs.h
+Only in ./linux-3.13.1/include/linux: auxvec.h
+Only in ./linux-3.13.1/include/linux: average.h
+Only in ./linux-3.13.1/include/linux: b1pcmcia.h
+Only in ./linux-3.13.1/include/linux: backing-dev.h
+Only in ./linux-3.13.1/include/linux: backlight.h
+Only in ./linux-3.13.1/include/linux: balloon_compaction.h
+Only in ./linux-3.13.1/include/linux: basic_mmio_gpio.h
+Only in ./linux-3.13.1/include/linux: bcd.h
+Only in ./linux-3.13.1/include/linux: bch.h
+Only in ./linux-3.13.1/include/linux: bcm47xx_wdt.h
+Only in ./linux-3.13.1/include/linux: bcma
+Only in ./linux-3.13.1/include/linux: bfin_mac.h
+Only in ./linux-3.13.1/include/linux: binfmts.h
+Only in ./linux-3.13.1/include/linux: bio.h
+Only in ./linux-3.13.1/include/linux: bitmap.h
+Only in ./linux-3.13.1/include/linux: bitops.h
+Only in ./linux-3.13.1/include/linux: bitrev.h
+Only in ./linux-3.13.1/include/linux: bit_spinlock.h
+Only in ./linux-3.13.1/include/linux: blkdev.h
+Only in ./linux-3.13.1/include/linux: blk-iopoll.h
+Only in ./linux-3.13.1/include/linux: blk-mq.h
+Only in ./linux-3.13.1/include/linux: blktrace_api.h
+Only in ./linux-3.13.1/include/linux: blk_types.h
+Only in ./linux-3.13.1/include/linux: blockgroup_lock.h
+Only in ./linux-3.13.1/include/linux: bma150.h
+Only in ./linux-3.13.1/include/linux: bootmem.h
+Only in ./linux-3.13.1/include/linux: bottom_half.h
+Only in ./linux-3.13.1/include/linux: brcmphy.h
+Only in ./linux-3.13.1/include/linux: bsearch.h
+Only in ./linux-3.13.1/include/linux: bsg.h
+Only in ./linux-3.13.1/include/linux: bsg-lib.h
+Only in ./linux-3.13.1/include/linux: btree-128.h
+Only in ./linux-3.13.1/include/linux: btree.h
+Only in ./linux-3.13.1/include/linux: btree-type.h
+Only in ./linux-3.13.1/include/linux: btrfs.h
+Only in ./linux-3.13.1/include/linux: buffer_head.h
+Only in ./linux-3.13.1/include/linux: bug.h
+Only in ./linux-3.13.1/include/linux: byteorder
+Only in ./linux-3.13.1/include/linux: c2port.h
+Only in ./linux-3.13.1/include/linux: cache.h
+Only in ./linux-3.13.1/include/linux: can
+Only in ./linux-3.13.1/include/linux: capability.h
+Only in ./linux-3.13.1/include/linux: cb710.h
+Only in ./linux-3.13.1/include/linux: cciss_ioctl.h
+Only in ./linux-3.13.1/include/linux: cdev.h
+Only in ./linux-3.13.1/include/linux: cdrom.h
+Only in ./linux-3.13.1/include/linux: ceph
+Only in ./linux-3.13.1/include/linux: cfag12864b.h
+Only in ./linux-3.13.1/include/linux: cgroup.h
+Only in ./linux-3.13.1/include/linux: cgroup_subsys.h
+Only in ./linux-3.13.1/include/linux: circ_buf.h
+Only in ./linux-3.13.1/include/linux: cleancache.h
+Only in ./linux-3.13.1/include/linux: clk
+Only in ./linux-3.13.1/include/linux: clkdev.h
+Only in ./linux-3.13.1/include/linux: clk.h
+Only in ./linux-3.13.1/include/linux: clk-private.h
+Only in ./linux-3.13.1/include/linux: clk-provider.h
+Only in ./linux-3.13.1/include/linux: clksrc-dbx500-prcmu.h
+Only in ./linux-3.13.1/include/linux: clockchips.h
+Only in ./linux-3.13.1/include/linux: clocksource.h
+Only in ./linux-3.13.1/include/linux: cm4000_cs.h
+Only in ./linux-3.13.1/include/linux: cmdline-parser.h
+Only in ./linux-3.13.1/include/linux: cn_proc.h
+Only in ./linux-3.13.1/include/linux: cnt32_to_63.h
+Only in ./linux-3.13.1/include/linux: coda.h
+Only in ./linux-3.13.1/include/linux: coda_psdev.h
+Only in ./linux-3.13.1/include/linux: com20020.h
+Only in ./linux-3.13.1/include/linux: compaction.h
+Only in ./linux-3.13.1/include/linux: compat.h
+Only in ./linux-3.13.1/include/linux: compiler-gcc3.h
+Only in ./linux-3.13.1/include/linux: compiler-gcc4.h
+Only in ./linux-3.13.1/include/linux: compiler-gcc.h
+Only in ./linux-3.13.1/include/linux: compiler.h
+Only in ./linux-3.13.1/include/linux: compiler-intel.h
+Only in ./linux-3.13.1/include/linux: completion.h
+Only in ./linux-3.13.1/include/linux: concap.h
+Only in ./linux-3.13.1/include/linux: configfs.h
+Only in ./linux-3.13.1/include/linux: connector.h
+Only in ./linux-3.13.1/include/linux: console.h
+Only in ./linux-3.13.1/include/linux: consolemap.h
+Only in ./linux-3.13.1/include/linux: console_struct.h
+Only in ./linux-3.13.1/include/linux: context_tracking.h
+Only in ./linux-3.13.1/include/linux: context_tracking_state.h
+Only in ./linux-3.13.1/include/linux: cordic.h
+Only in ./linux-3.13.1/include/linux: coredump.h
+Only in ./linux-3.13.1/include/linux: cper.h
+Only in ./linux-3.13.1/include/linux: cpu_cooling.h
+Only in ./linux-3.13.1/include/linux: cpufreq.h
+Only in ./linux-3.13.1/include/linux: cpu.h
+Only in ./linux-3.13.1/include/linux: cpuidle.h
+Only in ./linux-3.13.1/include/linux: cpumask.h
+Only in ./linux-3.13.1/include/linux: cpu_pm.h
+Only in ./linux-3.13.1/include/linux: cpu_rmap.h
+Only in ./linux-3.13.1/include/linux: cpuset.h
+Only in ./linux-3.13.1/include/linux: cramfs_fs.h
+Only in ./linux-3.13.1/include/linux: cramfs_fs_sb.h
+Only in ./linux-3.13.1/include/linux: crash_dump.h
+Only in ./linux-3.13.1/include/linux: crc16.h
+Only in ./linux-3.13.1/include/linux: crc32c.h
+Only in ./linux-3.13.1/include/linux: crc32.h
+Only in ./linux-3.13.1/include/linux: crc7.h
+Only in ./linux-3.13.1/include/linux: crc8.h
+Only in ./linux-3.13.1/include/linux: crc-ccitt.h
+Only in ./linux-3.13.1/include/linux: crc-itu-t.h
+Only in ./linux-3.13.1/include/linux: crc-t10dif.h
+Only in ./linux-3.13.1/include/linux: cred.h
+Only in ./linux-3.13.1/include/linux: crush
+Only in ./linux-3.13.1/include/linux: crypto.h
+Only in ./linux-3.13.1/include/linux: cryptohash.h
+Only in ./linux-3.13.1/include/linux: cryptouser.h
+Only in ./linux-3.13.1/include/linux: cs5535.h
+Only in ./linux-3.13.1/include/linux: ctype.h
+Only in ./linux-3.13.1/include/linux: cuda.h
+Only in ./linux-3.13.1/include/linux: cyclades.h
+Only in ./linux-3.13.1/include/linux: cycx_x25.h
+Only in ./linux-3.13.1/include/linux: davinci_emac.h
+Only in ./linux-3.13.1/include/linux: dcache.h
+Only in ./linux-3.13.1/include/linux: dca.h
+Only in ./linux-3.13.1/include/linux: dccp.h
+Only in ./linux-3.13.1/include/linux: dcookies.h
+Only in ./linux-3.13.1/include/linux: debugfs.h
+Only in ./linux-3.13.1/include/linux: debug_locks.h
+Only in ./linux-3.13.1/include/linux: debugobjects.h
+Only in ./linux-3.13.1/include/linux: decompress
+Only in ./linux-3.13.1/include/linux: delayacct.h
+Only in ./linux-3.13.1/include/linux: delay.h
+Only in ./linux-3.13.1/include/linux: devfreq.h
+Only in ./linux-3.13.1/include/linux: device_cgroup.h
+Only in ./linux-3.13.1/include/linux: device.h
+Only in ./linux-3.13.1/include/linux: device-mapper.h
+Only in ./linux-3.13.1/include/linux: devpts_fs.h
+Only in ./linux-3.13.1/include/linux: digsig.h
+Only in ./linux-3.13.1/include/linux: dio.h
+Only in ./linux-3.13.1/include/linux: dirent.h
+Only in ./linux-3.13.1/include/linux: dlm.h
+Only in ./linux-3.13.1/include/linux: dlm_plock.h
+Only in ./linux-3.13.1/include/linux: dm9000.h
+Only in ./linux-3.13.1/include/linux: dma
+Only in ./linux-3.13.1/include/linux: dma-attrs.h
+Only in ./linux-3.13.1/include/linux: dma-buf.h
+Only in ./linux-3.13.1/include/linux: dma-contiguous.h
+Only in ./linux-3.13.1/include/linux: dma-debug.h
+Only in ./linux-3.13.1/include/linux: dma-direction.h
+Only in ./linux-3.13.1/include/linux: dmaengine.h
+Only in ./linux-3.13.1/include/linux: dma-mapping.h
+Only in ./linux-3.13.1/include/linux: dmapool.h
+Only in ./linux-3.13.1/include/linux: dma_remapping.h
+Only in ./linux-3.13.1/include/linux: dmar.h
+Only in ./linux-3.13.1/include/linux: dm-dirty-log.h
+Only in ./linux-3.13.1/include/linux: dmi.h
+Only in ./linux-3.13.1/include/linux: dm-io.h
+Only in ./linux-3.13.1/include/linux: dm-kcopyd.h
+Only in ./linux-3.13.1/include/linux: dm-region-hash.h
+Only in ./linux-3.13.1/include/linux: dnotify.h
+Only in ./linux-3.13.1/include/linux: dns_resolver.h
+Only in ./linux-3.13.1/include/linux: dqblk_qtree.h
+Only in ./linux-3.13.1/include/linux: dqblk_v1.h
+Only in ./linux-3.13.1/include/linux: dqblk_v2.h
+Only in ./linux-3.13.1/include/linux: drbd_genl_api.h
+Only in ./linux-3.13.1/include/linux: drbd_genl.h
+Only in ./linux-3.13.1/include/linux: drbd.h
+Only in ./linux-3.13.1/include/linux: drbd_limits.h
+Only in ./linux-3.13.1/include/linux: ds1286.h
+Only in ./linux-3.13.1/include/linux: ds17287rtc.h
+Only in ./linux-3.13.1/include/linux: ds2782_battery.h
+Only in ./linux-3.13.1/include/linux: dtlk.h
+Only in ./linux-3.13.1/include/linux: dw_apb_timer.h
+Only in ./linux-3.13.1/include/linux: dw_dmac.h
+Only in ./linux-3.13.1/include/linux: dynamic_debug.h
+Only in ./linux-3.13.1/include/linux: dynamic_queue_limits.h
+Only in ./linux-3.13.1/include/linux: earlycpio.h
+Only in ./linux-3.13.1/include/linux: ecryptfs.h
+Only in ./linux-3.13.1/include/linux: edac.h
+Only in ./linux-3.13.1/include/linux: edd.h
+Only in ./linux-3.13.1/include/linux: edma.h
+Only in ./linux-3.13.1/include/linux: eeprom_93cx6.h
+Only in ./linux-3.13.1/include/linux: eeprom_93xx46.h
+Only in ./linux-3.13.1/include/linux: efi-bgrt.h
+Only in ./linux-3.13.1/include/linux: efi.h
+Only in ./linux-3.13.1/include/linux: efs_vh.h
+Only in ./linux-3.13.1/include/linux: eisa.h
+Only in ./linux-3.13.1/include/linux: elevator.h
+Only in ./linux-3.13.1/include/linux: elfcore-compat.h
+Only in ./linux-3.13.1/include/linux: elfcore.h
+Only in ./linux-3.13.1/include/linux: elf-fdpic.h
+Only in ./linux-3.13.1/include/linux: elf.h
+Only in ./linux-3.13.1/include/linux: elfnote.h
+Only in ./linux-3.13.1/include/linux: enclosure.h
+Only in ./linux-3.13.1/include/linux: err.h
+Only in ./linux-3.13.1/include/linux: errno.h
+Only in ./linux-3.13.1/include/linux: errqueue.h
+Only in ./linux-3.13.1/include/linux: etherdevice.h
+Only in ./linux-3.13.1/include/linux: ethtool.h
+Only in ./linux-3.13.1/include/linux: eventfd.h
+Only in ./linux-3.13.1/include/linux: eventpoll.h
+Only in ./linux-3.13.1/include/linux: evm.h
+Only in ./linux-3.13.1/include/linux: exportfs.h
+Only in ./linux-3.13.1/include/linux: export.h
+Only in ./linux-3.13.1/include/linux: ext2_fs.h
+Only in ./linux-3.13.1/include/linux: extcon
+Only in ./linux-3.13.1/include/linux: extcon.h
+Only in ./linux-3.13.1/include/linux: f2fs_fs.h
+Only in ./linux-3.13.1/include/linux: f75375s.h
+Only in ./linux-3.13.1/include/linux: falloc.h
+Only in ./linux-3.13.1/include/linux: fanotify.h
+Only in ./linux-3.13.1/include/linux: fault-inject.h
+Only in ./linux-3.13.1/include/linux: fb.h
+Only in ./linux-3.13.1/include/linux: fcdevice.h
+Only in ./linux-3.13.1/include/linux: fcntl.h
+Only in ./linux-3.13.1/include/linux: fddidevice.h
+Only in ./linux-3.13.1/include/linux: fd.h
+Only in ./linux-3.13.1/include/linux: fdtable.h
+Only in ./linux-3.13.1/include/linux: fec.h
+Only in ./linux-3.13.1/include/linux: file.h
+Only in ./linux-3.13.1/include/linux: filter.h
+Only in ./linux-3.13.1/include/linux: fips.h
+Only in ./linux-3.13.1/include/linux: firewire.h
+Only in ./linux-3.13.1/include/linux: firmware.h
+Only in ./linux-3.13.1/include/linux: firmware-map.h
+Only in ./linux-3.13.1/include/linux: fixp-arith.h
+Only in ./linux-3.13.1/include/linux: flat.h
+Only in ./linux-3.13.1/include/linux: flex_array.h
+Only in ./linux-3.13.1/include/linux: flex_proportions.h
+Only in ./linux-3.13.1/include/linux: fmc.h
+Only in ./linux-3.13.1/include/linux: fmc-sdb.h
+Only in ./linux-3.13.1/include/linux: font.h
+Only in ./linux-3.13.1/include/linux: freezer.h
+Only in ./linux-3.13.1/include/linux: frontswap.h
+Only in ./linux-3.13.1/include/linux: fscache-cache.h
+Only in ./linux-3.13.1/include/linux: fscache.h
+Only in ./linux-3.13.1/include/linux: fs_enet_pd.h
+Only in ./linux-3.13.1/include/linux: fs.h
+Only in ./linux-3.13.1/include/linux: fsl
+Only in ./linux-3.13.1/include/linux: fsl_devices.h
+Only in ./linux-3.13.1/include/linux: fsl-diu-fb.h
+Only in ./linux-3.13.1/include/linux: fsl_hypervisor.h
+Only in ./linux-3.13.1/include/linux: fsnotify_backend.h
+Only in ./linux-3.13.1/include/linux: fsnotify.h
+Only in ./linux-3.13.1/include/linux: fs_stack.h
+Only in ./linux-3.13.1/include/linux: fs_struct.h
+Only in ./linux-3.13.1/include/linux: fs_uart_pd.h
+Only in ./linux-3.13.1/include/linux: ftrace_event.h
+Only in ./linux-3.13.1/include/linux: ftrace.h
+Only in ./linux-3.13.1/include/linux: ftrace_irq.h
+Only in ./linux-3.13.1/include/linux: futex.h
+Only in ./linux-3.13.1/include/linux: gameport.h
+Only in ./linux-3.13.1/include/linux: gcd.h
+Only in ./linux-3.13.1/include/linux: genalloc.h
+Only in ./linux-3.13.1/include/linux: generic_acl.h
+Only in ./linux-3.13.1/include/linux: genetlink.h
+Only in ./linux-3.13.1/include/linux: genhd.h
+Only in ./linux-3.13.1/include/linux: genl_magic_func.h
+Only in ./linux-3.13.1/include/linux: genl_magic_struct.h
+Only in ./linux-3.13.1/include/linux: getcpu.h
+Only in ./linux-3.13.1/include/linux: gfp.h
+Only in ./linux-3.13.1/include/linux: gpio
+Only in ./linux-3.13.1/include/linux: gpio-fan.h
+Only in ./linux-3.13.1/include/linux: gpio.h
+Only in ./linux-3.13.1/include/linux: gpio_keys.h
+Only in ./linux-3.13.1/include/linux: gpio_mouse.h
+Only in ./linux-3.13.1/include/linux: gpio-pxa.h
+Only in ./linux-3.13.1/include/linux: gsmmux.h
+Only in ./linux-3.13.1/include/linux: hardirq.h
+Only in ./linux-3.13.1/include/linux: hash.h
+Only in ./linux-3.13.1/include/linux: hashtable.h
+Only in ./linux-3.13.1/include/linux: hdlcdrv.h
+Only in ./linux-3.13.1/include/linux: hdlc.h
+Only in ./linux-3.13.1/include/linux: hdmi.h
+Only in ./linux-3.13.1/include/linux: hid-debug.h
+Only in ./linux-3.13.1/include/linux: hiddev.h
+Only in ./linux-3.13.1/include/linux: hid.h
+Only in ./linux-3.13.1/include/linux: hidraw.h
+Only in ./linux-3.13.1/include/linux: hid-roccat.h
+Only in ./linux-3.13.1/include/linux: hid-sensor-hub.h
+Only in ./linux-3.13.1/include/linux: hid-sensor-ids.h
+Only in ./linux-3.13.1/include/linux: highmem.h
+Only in ./linux-3.13.1/include/linux: highuid.h
+Only in ./linux-3.13.1/include/linux: hil.h
+Only in ./linux-3.13.1/include/linux: hil_mlc.h
+Only in ./linux-3.13.1/include/linux: hippidevice.h
+Only in ./linux-3.13.1/include/linux: host1x.h
+Only in ./linux-3.13.1/include/linux: hpet.h
+Only in ./linux-3.13.1/include/linux: hp_sdc.h
+Only in ./linux-3.13.1/include/linux: hrtimer.h
+Only in ./linux-3.13.1/include/linux: hsi
+Only in ./linux-3.13.1/include/linux: htcpld.h
+Only in ./linux-3.13.1/include/linux: htirq.h
+Only in ./linux-3.13.1/include/linux: huge_mm.h
+Only in ./linux-3.13.1/include/linux: hugetlb_cgroup.h
+Only in ./linux-3.13.1/include/linux: hugetlb.h
+Only in ./linux-3.13.1/include/linux: hugetlb_inline.h
+Only in ./linux-3.13.1/include/linux: hw_breakpoint.h
+Only in ./linux-3.13.1/include/linux: hwmon.h
+Only in ./linux-3.13.1/include/linux: hwmon-sysfs.h
+Only in ./linux-3.13.1/include/linux: hwmon-vid.h
+Only in ./linux-3.13.1/include/linux: hw_random.h
+Only in ./linux-3.13.1/include/linux: hwspinlock.h
+Only in ./linux-3.13.1/include/linux: hyperv.h
+Only in ./linux-3.13.1/include/linux: i2c
+Only in ./linux-3.13.1/include/linux: i2c-algo-bit.h
+Only in ./linux-3.13.1/include/linux: i2c-algo-pca.h
+Only in ./linux-3.13.1/include/linux: i2c-algo-pcf.h
+Only in ./linux-3.13.1/include/linux: i2c-dev.h
+Only in ./linux-3.13.1/include/linux: i2c-gpio.h
+Only in ./linux-3.13.1/include/linux: i2c.h
+Only in ./linux-3.13.1/include/linux: i2c-mux-gpio.h
+Only in ./linux-3.13.1/include/linux: i2c-mux.h
+Only in ./linux-3.13.1/include/linux: i2c-mux-pinctrl.h
+Only in ./linux-3.13.1/include/linux: i2c-ocores.h
+Only in ./linux-3.13.1/include/linux: i2c-omap.h
+Only in ./linux-3.13.1/include/linux: i2c-pca-platform.h
+Only in ./linux-3.13.1/include/linux: i2c-pnx.h
+Only in ./linux-3.13.1/include/linux: i2c-pxa.h
+Only in ./linux-3.13.1/include/linux: i2c-smbus.h
+Only in ./linux-3.13.1/include/linux: i2c-xiic.h
+Only in ./linux-3.13.1/include/linux: i2o.h
+Only in ./linux-3.13.1/include/linux: i7300_idle.h
+Only in ./linux-3.13.1/include/linux: i8042.h
+Only in ./linux-3.13.1/include/linux: i8253.h
+Only in ./linux-3.13.1/include/linux: i82593.h
+Only in ./linux-3.13.1/include/linux: icmp.h
+Only in ./linux-3.13.1/include/linux: icmpv6.h
+Only in ./linux-3.13.1/include/linux: ide.h
+Only in ./linux-3.13.1/include/linux: idr.h
+Only in ./linux-3.13.1/include/linux: ieee80211.h
+Only in ./linux-3.13.1/include/linux: if_arp.h
+Only in ./linux-3.13.1/include/linux: if_bridge.h
+Only in ./linux-3.13.1/include/linux: if_eql.h
+Only in ./linux-3.13.1/include/linux: if_ether.h
+Only in ./linux-3.13.1/include/linux: if_fddi.h
+Only in ./linux-3.13.1/include/linux: if_frad.h
+Only in ./linux-3.13.1/include/linux: if_link.h
+Only in ./linux-3.13.1/include/linux: if_ltalk.h
+Only in ./linux-3.13.1/include/linux: if_macvlan.h
+Only in ./linux-3.13.1/include/linux: if_phonet.h
+Only in ./linux-3.13.1/include/linux: if_pppol2tp.h
+Only in ./linux-3.13.1/include/linux: if_pppox.h
+Only in ./linux-3.13.1/include/linux: if_team.h
+Only in ./linux-3.13.1/include/linux: if_tun.h
+Only in ./linux-3.13.1/include/linux: if_tunnel.h
+Only in ./linux-3.13.1/include/linux: if_vlan.h
+Only in ./linux-3.13.1/include/linux: igmp.h
+Only in ./linux-3.13.1/include/linux: ihex.h
+Only in ./linux-3.13.1/include/linux: iio
+Only in ./linux-3.13.1/include/linux: ima.h
+Only in ./linux-3.13.1/include/linux: in6.h
+Only in ./linux-3.13.1/include/linux: inetdevice.h
+Only in ./linux-3.13.1/include/linux: inet_diag.h
+Only in ./linux-3.13.1/include/linux: inet.h
+Only in ./linux-3.13.1/include/linux: inet_lro.h
+Only in ./linux-3.13.1/include/linux: in.h
+Only in ./linux-3.13.1/include/linux: init.h
+Only in ./linux-3.13.1/include/linux: init_ohci1394_dma.h
+Only in ./linux-3.13.1/include/linux: initrd.h
+diff -rup ./linux-3.13.1/include/linux/init_task.h ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/include/linux/init_task.h
+--- ./linux-3.13.1/include/linux/init_task.h	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/include/linux/init_task.h	2017-07-31 09:44:30.000000000 +0800
+@@ -184,6 +184,13 @@ extern struct task_group root_task_group
+ 	INIT_CGROUP_SCHED(tsk)						\
+ 	.ptraced	= LIST_HEAD_INIT(tsk.ptraced),			\
+ 	.ptrace_entry	= LIST_HEAD_INIT(tsk.ptrace_entry),		\
++	.dilation_factor	= 0,					\
++	.virt_start_time	= 0,					\
++	.freeze_time		= 0,					\
++	.past_physical_time	= 0,					\
++	.past_virtual_time 	= 0,					\
++	.wakeup_time	= 0,						\
++	.dialation_lock	= __SPIN_LOCK_UNLOCKED(tsk.dialation_lock),		\
+ 	.real_parent	= &tsk,						\
+ 	.parent		= &tsk,						\
+ 	.children	= LIST_HEAD_INIT(tsk.children),			\
+Only in ./linux-3.13.1/include/linux: inotify.h
+Only in ./linux-3.13.1/include/linux: input
+Only in ./linux-3.13.1/include/linux: input.h
+Only in ./linux-3.13.1/include/linux: input-polldev.h
+Only in ./linux-3.13.1/include/linux: integrity.h
+Only in ./linux-3.13.1/include/linux: intel-iommu.h
+Only in ./linux-3.13.1/include/linux: intel_mid_dma.h
+Only in ./linux-3.13.1/include/linux: intel_pmic_gpio.h
+Only in ./linux-3.13.1/include/linux: interrupt.h
+Only in ./linux-3.13.1/include/linux: interval_tree_generic.h
+Only in ./linux-3.13.1/include/linux: interval_tree.h
+Only in ./linux-3.13.1/include/linux: ioc3.h
+Only in ./linux-3.13.1/include/linux: ioc4.h
+Only in ./linux-3.13.1/include/linux: iocontext.h
+Only in ./linux-3.13.1/include/linux: io.h
+Only in ./linux-3.13.1/include/linux: io-mapping.h
+Only in ./linux-3.13.1/include/linux: iommu.h
+Only in ./linux-3.13.1/include/linux: iommu-helper.h
+Only in ./linux-3.13.1/include/linux: ioport.h
+Only in ./linux-3.13.1/include/linux: ioprio.h
+Only in ./linux-3.13.1/include/linux: iova.h
+Only in ./linux-3.13.1/include/linux: ipack.h
+Only in ./linux-3.13.1/include/linux: ipc.h
+Only in ./linux-3.13.1/include/linux: ipc_namespace.h
+Only in ./linux-3.13.1/include/linux: ip.h
+Only in ./linux-3.13.1/include/linux: ipmi-fru.h
+Only in ./linux-3.13.1/include/linux: ipmi.h
+Only in ./linux-3.13.1/include/linux: ipmi_smi.h
+Only in ./linux-3.13.1/include/linux: ipv6.h
+Only in ./linux-3.13.1/include/linux: ipv6_route.h
+Only in ./linux-3.13.1/include/linux: irqchip
+Only in ./linux-3.13.1/include/linux: irqchip.h
+Only in ./linux-3.13.1/include/linux: irq_cpustat.h
+Only in ./linux-3.13.1/include/linux: irqdesc.h
+Only in ./linux-3.13.1/include/linux: irqdomain.h
+Only in ./linux-3.13.1/include/linux: irqflags.h
+Only in ./linux-3.13.1/include/linux: irq.h
+Only in ./linux-3.13.1/include/linux: irqnr.h
+Only in ./linux-3.13.1/include/linux: irqreturn.h
+Only in ./linux-3.13.1/include/linux: irq_work.h
+Only in ./linux-3.13.1/include/linux: isa.h
+Only in ./linux-3.13.1/include/linux: isapnp.h
+Only in ./linux-3.13.1/include/linux: iscsi_boot_sysfs.h
+Only in ./linux-3.13.1/include/linux: iscsi_ibft.h
+Only in ./linux-3.13.1/include/linux: isdn
+Only in ./linux-3.13.1/include/linux: isdn_divertif.h
+Only in ./linux-3.13.1/include/linux: isdn.h
+Only in ./linux-3.13.1/include/linux: isdnif.h
+Only in ./linux-3.13.1/include/linux: isdn_ppp.h
+Only in ./linux-3.13.1/include/linux: isicom.h
+Only in ./linux-3.13.1/include/linux: jbd2.h
+Only in ./linux-3.13.1/include/linux: jbd_common.h
+Only in ./linux-3.13.1/include/linux: jbd.h
+Only in ./linux-3.13.1/include/linux: jhash.h
+Only in ./linux-3.13.1/include/linux: jiffies.h
+Only in ./linux-3.13.1/include/linux: journal-head.h
+Only in ./linux-3.13.1/include/linux: joystick.h
+Only in ./linux-3.13.1/include/linux: jump_label.h
+Only in ./linux-3.13.1/include/linux: jump_label_ratelimit.h
+Only in ./linux-3.13.1/include/linux: jz4740-adc.h
+Only in ./linux-3.13.1/include/linux: kallsyms.h
+Only in ./linux-3.13.1/include/linux: kbd_diacr.h
+Only in ./linux-3.13.1/include/linux: kbd_kern.h
+Only in ./linux-3.13.1/include/linux: kbuild.h
+Only in ./linux-3.13.1/include/linux: kcmp.h
+Only in ./linux-3.13.1/include/linux: kconfig.h
+Only in ./linux-3.13.1/include/linux: kcore.h
+Only in ./linux-3.13.1/include/linux: kdb.h
+Only in ./linux-3.13.1/include/linux: kdebug.h
+Only in ./linux-3.13.1/include/linux: kdev_t.h
+Only in ./linux-3.13.1/include/linux: kd.h
+Only in ./linux-3.13.1/include/linux: kernelcapi.h
+Only in ./linux-3.13.1/include/linux: kernel.h
+Only in ./linux-3.13.1/include/linux: kernel-page-flags.h
+Only in ./linux-3.13.1/include/linux: kernel_stat.h
+Only in ./linux-3.13.1/include/linux: kern_levels.h
+Only in ./linux-3.13.1/include/linux: kexec.h
+Only in ./linux-3.13.1/include/linux: keyboard.h
+Only in ./linux-3.13.1/include/linux: key.h
+Only in ./linux-3.13.1/include/linux: key-type.h
+Only in ./linux-3.13.1/include/linux: kfifo.h
+Only in ./linux-3.13.1/include/linux: kgdb.h
+Only in ./linux-3.13.1/include/linux: khugepaged.h
+Only in ./linux-3.13.1/include/linux: klist.h
+Only in ./linux-3.13.1/include/linux: kmemcheck.h
+Only in ./linux-3.13.1/include/linux: kmemleak.h
+Only in ./linux-3.13.1/include/linux: kmod.h
+Only in ./linux-3.13.1/include/linux: kmsg_dump.h
+Only in ./linux-3.13.1/include/linux: kobj_completion.h
+Only in ./linux-3.13.1/include/linux: kobject.h
+Only in ./linux-3.13.1/include/linux: kobject_ns.h
+Only in ./linux-3.13.1/include/linux: kobj_map.h
+Only in ./linux-3.13.1/include/linux: kprobes.h
+Only in ./linux-3.13.1/include/linux: kref.h
+Only in ./linux-3.13.1/include/linux: ks0108.h
+Only in ./linux-3.13.1/include/linux: ks8842.h
+Only in ./linux-3.13.1/include/linux: ks8851_mll.h
+Only in ./linux-3.13.1/include/linux: ksm.h
+Only in ./linux-3.13.1/include/linux: kthread.h
+Only in ./linux-3.13.1/include/linux: ktime.h
+Only in ./linux-3.13.1/include/linux: kvm_host.h
+Only in ./linux-3.13.1/include/linux: kvm_para.h
+Only in ./linux-3.13.1/include/linux: kvm_types.h
+Only in ./linux-3.13.1/include/linux: l2tp.h
+Only in ./linux-3.13.1/include/linux: lapb.h
+Only in ./linux-3.13.1/include/linux: latencytop.h
+Only in ./linux-3.13.1/include/linux: lcd.h
+Only in ./linux-3.13.1/include/linux: lcm.h
+Only in ./linux-3.13.1/include/linux: led-lm3530.h
+Only in ./linux-3.13.1/include/linux: leds-bd2802.h
+Only in ./linux-3.13.1/include/linux: leds.h
+Only in ./linux-3.13.1/include/linux: leds-lp3944.h
+Only in ./linux-3.13.1/include/linux: leds-pca9532.h
+Only in ./linux-3.13.1/include/linux: leds_pwm.h
+Only in ./linux-3.13.1/include/linux: leds-regulator.h
+Only in ./linux-3.13.1/include/linux: leds-tca6507.h
+Only in ./linux-3.13.1/include/linux: lglock.h
+Only in ./linux-3.13.1/include/linux: lguest.h
+Only in ./linux-3.13.1/include/linux: lguest_launcher.h
+Only in ./linux-3.13.1/include/linux: libata.h
+Only in ./linux-3.13.1/include/linux: libfdt_env.h
+Only in ./linux-3.13.1/include/linux: libfdt.h
+Only in ./linux-3.13.1/include/linux: libps2.h
+Only in ./linux-3.13.1/include/linux: license.h
+Only in ./linux-3.13.1/include/linux: linkage.h
+Only in ./linux-3.13.1/include/linux: linux_logo.h
+Only in ./linux-3.13.1/include/linux: lis3lv02d.h
+Only in ./linux-3.13.1/include/linux: list_bl.h
+Only in ./linux-3.13.1/include/linux: list.h
+Only in ./linux-3.13.1/include/linux: list_lru.h
+Only in ./linux-3.13.1/include/linux: list_nulls.h
+Only in ./linux-3.13.1/include/linux: list_sort.h
+Only in ./linux-3.13.1/include/linux: llc.h
+Only in ./linux-3.13.1/include/linux: llist.h
+Only in ./linux-3.13.1/include/linux: lockd
+Only in ./linux-3.13.1/include/linux: lockdep.h
+Only in ./linux-3.13.1/include/linux: lockref.h
+Only in ./linux-3.13.1/include/linux: log2.h
+Only in ./linux-3.13.1/include/linux: lp.h
+Only in ./linux-3.13.1/include/linux: lru_cache.h
+Only in ./linux-3.13.1/include/linux: lsm_audit.h
+Only in ./linux-3.13.1/include/linux: lz4.h
+Only in ./linux-3.13.1/include/linux: lzo.h
+Only in ./linux-3.13.1/include/linux: m48t86.h
+Only in ./linux-3.13.1/include/linux: mailbox.h
+Only in ./linux-3.13.1/include/linux: maple.h
+Only in ./linux-3.13.1/include/linux: marvell_phy.h
+Only in ./linux-3.13.1/include/linux: math64.h
+Only in ./linux-3.13.1/include/linux: max17040_battery.h
+Only in ./linux-3.13.1/include/linux: mbcache.h
+Only in ./linux-3.13.1/include/linux: mbus.h
+Only in ./linux-3.13.1/include/linux: mc146818rtc.h
+Only in ./linux-3.13.1/include/linux: mc6821.h
+Only in ./linux-3.13.1/include/linux: mdio-bitbang.h
+Only in ./linux-3.13.1/include/linux: mdio-gpio.h
+Only in ./linux-3.13.1/include/linux: mdio.h
+Only in ./linux-3.13.1/include/linux: mdio-mux.h
+Only in ./linux-3.13.1/include/linux: mei_cl_bus.h
+Only in ./linux-3.13.1/include/linux: memblock.h
+Only in ./linux-3.13.1/include/linux: memcontrol.h
+Only in ./linux-3.13.1/include/linux: memory.h
+Only in ./linux-3.13.1/include/linux: memory_hotplug.h
+Only in ./linux-3.13.1/include/linux: mempolicy.h
+Only in ./linux-3.13.1/include/linux: mempool.h
+Only in ./linux-3.13.1/include/linux: memstick.h
+Only in ./linux-3.13.1/include/linux: mfd
+Only in ./linux-3.13.1/include/linux: mg_disk.h
+Only in ./linux-3.13.1/include/linux: micrel_phy.h
+Only in ./linux-3.13.1/include/linux: migrate.h
+Only in ./linux-3.13.1/include/linux: migrate_mode.h
+Only in ./linux-3.13.1/include/linux: mii.h
+Only in ./linux-3.13.1/include/linux: miscdevice.h
+Only in ./linux-3.13.1/include/linux: mISDNdsp.h
+Only in ./linux-3.13.1/include/linux: mISDNhw.h
+Only in ./linux-3.13.1/include/linux: mISDNif.h
+Only in ./linux-3.13.1/include/linux: mlx4
+Only in ./linux-3.13.1/include/linux: mlx5
+Only in ./linux-3.13.1/include/linux: mman.h
+Only in ./linux-3.13.1/include/linux: mmc
+Only in ./linux-3.13.1/include/linux: mmdebug.h
+Only in ./linux-3.13.1/include/linux: mm.h
+Only in ./linux-3.13.1/include/linux: mm_inline.h
+Only in ./linux-3.13.1/include/linux: mmiotrace.h
+Only in ./linux-3.13.1/include/linux: mm_types.h
+Only in ./linux-3.13.1/include/linux: mmu_context.h
+Only in ./linux-3.13.1/include/linux: mmu_notifier.h
+Only in ./linux-3.13.1/include/linux: mmzone.h
+Only in ./linux-3.13.1/include/linux: mnt_namespace.h
+Only in ./linux-3.13.1/include/linux: mod_devicetable.h
+Only in ./linux-3.13.1/include/linux: module.h
+Only in ./linux-3.13.1/include/linux: moduleloader.h
+Only in ./linux-3.13.1/include/linux: moduleparam.h
+Only in ./linux-3.13.1/include/linux: mount.h
+Only in ./linux-3.13.1/include/linux: mpage.h
+Only in ./linux-3.13.1/include/linux: mpi.h
+Only in ./linux-3.13.1/include/linux: mroute6.h
+Only in ./linux-3.13.1/include/linux: mroute.h
+Only in ./linux-3.13.1/include/linux: msdos_fs.h
+Only in ./linux-3.13.1/include/linux: msg.h
+Only in ./linux-3.13.1/include/linux: msi.h
+Only in ./linux-3.13.1/include/linux: msm_mdp.h
+Only in ./linux-3.13.1/include/linux: mtd
+Only in ./linux-3.13.1/include/linux: mutex-debug.h
+Only in ./linux-3.13.1/include/linux: mutex.h
+Only in ./linux-3.13.1/include/linux: mv643xx_eth.h
+Only in ./linux-3.13.1/include/linux: mv643xx.h
+Only in ./linux-3.13.1/include/linux: mv643xx_i2c.h
+Only in ./linux-3.13.1/include/linux: mxm-wmi.h
+Only in ./linux-3.13.1/include/linux: namei.h
+Only in ./linux-3.13.1/include/linux: nbd.h
+Only in ./linux-3.13.1/include/linux: netdev_features.h
+diff -rup ./linux-3.13.1/include/linux/netdevice.h ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/include/linux/netdevice.h
+--- ./linux-3.13.1/include/linux/netdevice.h	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/include/linux/netdevice.h	2017-07-31 09:44:30.000000000 +0800
+@@ -50,6 +50,7 @@
+ #include <linux/netdev_features.h>
+ #include <linux/neighbour.h>
+ #include <uapi/linux/netdevice.h>
++#include <linux/pid.h>
+ 
+ struct netpoll_info;
+ struct device;
+@@ -1148,6 +1149,7 @@ struct net_device {
+ 	 * of the interface.
+ 	 */
+ 	char			name[IFNAMSIZ];
++    	struct pid*             owner_pid;		// to be used with timekeeper
+ 
+ 	/* device name hash chain, please keep it close to name[] */
+ 	struct hlist_node	name_hlist;
+Only in ./linux-3.13.1/include/linux: netfilter
+Only in ./linux-3.13.1/include/linux: netfilter_arp
+Only in ./linux-3.13.1/include/linux: netfilter_bridge
+Only in ./linux-3.13.1/include/linux: netfilter_bridge.h
+Only in ./linux-3.13.1/include/linux: netfilter.h
+Only in ./linux-3.13.1/include/linux: netfilter_ipv4
+Only in ./linux-3.13.1/include/linux: netfilter_ipv4.h
+Only in ./linux-3.13.1/include/linux: netfilter_ipv6
+Only in ./linux-3.13.1/include/linux: netfilter_ipv6.h
+Only in ./linux-3.13.1/include/linux: net.h
+Only in ./linux-3.13.1/include/linux: netlink.h
+Only in ./linux-3.13.1/include/linux: netpoll.h
+Only in ./linux-3.13.1/include/linux: nfs3.h
+Only in ./linux-3.13.1/include/linux: nfs4.h
+Only in ./linux-3.13.1/include/linux: nfsacl.h
+Only in ./linux-3.13.1/include/linux: nfsd
+Only in ./linux-3.13.1/include/linux: nfs_fs.h
+Only in ./linux-3.13.1/include/linux: nfs_fs_i.h
+Only in ./linux-3.13.1/include/linux: nfs_fs_sb.h
+Only in ./linux-3.13.1/include/linux: nfs.h
+Only in ./linux-3.13.1/include/linux: nfs_idmap.h
+Only in ./linux-3.13.1/include/linux: nfs_iostat.h
+Only in ./linux-3.13.1/include/linux: nfs_page.h
+Only in ./linux-3.13.1/include/linux: nfs_xdr.h
+Only in ./linux-3.13.1/include/linux: nilfs2_fs.h
+Only in ./linux-3.13.1/include/linux: nl802154.h
+Only in ./linux-3.13.1/include/linux: nls.h
+Only in ./linux-3.13.1/include/linux: nmi.h
+Only in ./linux-3.13.1/include/linux: node.h
+Only in ./linux-3.13.1/include/linux: nodemask.h
+Only in ./linux-3.13.1/include/linux: notifier.h
+Only in ./linux-3.13.1/include/linux: n_r3964.h
+Only in ./linux-3.13.1/include/linux: nsc_gpio.h
+Only in ./linux-3.13.1/include/linux: nsproxy.h
+Only in ./linux-3.13.1/include/linux: ntb.h
+Only in ./linux-3.13.1/include/linux: nubus.h
+Only in ./linux-3.13.1/include/linux: numa.h
+Only in ./linux-3.13.1/include/linux: nvme.h
+Only in ./linux-3.13.1/include/linux: nvram.h
+Only in ./linux-3.13.1/include/linux: nwpserial.h
+Only in ./linux-3.13.1/include/linux: nx842.h
+Only in ./linux-3.13.1/include/linux: of_address.h
+Only in ./linux-3.13.1/include/linux: of_device.h
+Only in ./linux-3.13.1/include/linux: of_dma.h
+Only in ./linux-3.13.1/include/linux: of_fdt.h
+Only in ./linux-3.13.1/include/linux: of_gpio.h
+Only in ./linux-3.13.1/include/linux: of.h
+Only in ./linux-3.13.1/include/linux: of_iommu.h
+Only in ./linux-3.13.1/include/linux: of_irq.h
+Only in ./linux-3.13.1/include/linux: of_mdio.h
+Only in ./linux-3.13.1/include/linux: of_mtd.h
+Only in ./linux-3.13.1/include/linux: of_net.h
+Only in ./linux-3.13.1/include/linux: of_pci.h
+Only in ./linux-3.13.1/include/linux: of_pdt.h
+Only in ./linux-3.13.1/include/linux: of_platform.h
+Only in ./linux-3.13.1/include/linux: oid_registry.h
+Only in ./linux-3.13.1/include/linux: olpc-ec.h
+Only in ./linux-3.13.1/include/linux: omap-dma.h
+Only in ./linux-3.13.1/include/linux: omapfb.h
+Only in ./linux-3.13.1/include/linux: omap-iommu.h
+Only in ./linux-3.13.1/include/linux: omap-mailbox.h
+Only in ./linux-3.13.1/include/linux: oom.h
+Only in ./linux-3.13.1/include/linux: openvswitch.h
+Only in ./linux-3.13.1/include/linux: oprofile.h
+Only in ./linux-3.13.1/include/linux: oxu210hp.h
+Only in ./linux-3.13.1/include/linux: padata.h
+Only in ./linux-3.13.1/include/linux: pageblock-flags.h
+Only in ./linux-3.13.1/include/linux: page_cgroup.h
+Only in ./linux-3.13.1/include/linux: page-debug-flags.h
+Only in ./linux-3.13.1/include/linux: page-flags.h
+Only in ./linux-3.13.1/include/linux: page-flags-layout.h
+Only in ./linux-3.13.1/include/linux: page-isolation.h
+Only in ./linux-3.13.1/include/linux: pagemap.h
+Only in ./linux-3.13.1/include/linux: pagevec.h
+Only in ./linux-3.13.1/include/linux: parport.h
+Only in ./linux-3.13.1/include/linux: parport_pc.h
+Only in ./linux-3.13.1/include/linux: parser.h
+Only in ./linux-3.13.1/include/linux: pata_arasan_cf_data.h
+Only in ./linux-3.13.1/include/linux: patchkey.h
+Only in ./linux-3.13.1/include/linux: path.h
+Only in ./linux-3.13.1/include/linux: pch_dma.h
+Only in ./linux-3.13.1/include/linux: pci-acpi.h
+Only in ./linux-3.13.1/include/linux: pci-aspm.h
+Only in ./linux-3.13.1/include/linux: pci-ats.h
+Only in ./linux-3.13.1/include/linux: pci-dma.h
+Only in ./linux-3.13.1/include/linux: pcieport_if.h
+Only in ./linux-3.13.1/include/linux: pci.h
+Only in ./linux-3.13.1/include/linux: pci_hotplug.h
+Only in ./linux-3.13.1/include/linux: pci_ids.h
+Only in ./linux-3.13.1/include/linux: pda_power.h
+Only in ./linux-3.13.1/include/linux: percpu_counter.h
+Only in ./linux-3.13.1/include/linux: percpu-defs.h
+Only in ./linux-3.13.1/include/linux: percpu.h
+Only in ./linux-3.13.1/include/linux: percpu_ida.h
+Only in ./linux-3.13.1/include/linux: percpu-refcount.h
+Only in ./linux-3.13.1/include/linux: percpu-rwsem.h
+Only in ./linux-3.13.1/include/linux: perf_event.h
+Only in ./linux-3.13.1/include/linux: perf_regs.h
+Only in ./linux-3.13.1/include/linux: personality.h
+Only in ./linux-3.13.1/include/linux: pfn.h
+Only in ./linux-3.13.1/include/linux: phonedev.h
+Only in ./linux-3.13.1/include/linux: phonet.h
+Only in ./linux-3.13.1/include/linux: phy
+Only in ./linux-3.13.1/include/linux: phy_fixed.h
+Only in ./linux-3.13.1/include/linux: phy.h
+Only in ./linux-3.13.1/include/linux: pid.h
+Only in ./linux-3.13.1/include/linux: pid_namespace.h
+Only in ./linux-3.13.1/include/linux: pim.h
+Only in ./linux-3.13.1/include/linux: pinctrl
+Only in ./linux-3.13.1/include/linux: pipe_fs_i.h
+Only in ./linux-3.13.1/include/linux: pktcdvd.h
+Only in ./linux-3.13.1/include/linux: platform_data
+Only in ./linux-3.13.1/include/linux: platform_device.h
+Only in ./linux-3.13.1/include/linux: plist.h
+Only in ./linux-3.13.1/include/linux: pm2301_charger.h
+Only in ./linux-3.13.1/include/linux: pm_clock.h
+Only in ./linux-3.13.1/include/linux: pm_domain.h
+Only in ./linux-3.13.1/include/linux: pm.h
+Only in ./linux-3.13.1/include/linux: pm_opp.h
+Only in ./linux-3.13.1/include/linux: pm_qos.h
+Only in ./linux-3.13.1/include/linux: pm_runtime.h
+Only in ./linux-3.13.1/include/linux: pmu.h
+Only in ./linux-3.13.1/include/linux: pm_wakeup.h
+Only in ./linux-3.13.1/include/linux: pnfs_osd_xdr.h
+Only in ./linux-3.13.1/include/linux: pnp.h
+Only in ./linux-3.13.1/include/linux: poison.h
+Only in ./linux-3.13.1/include/linux: poll.h
+Only in ./linux-3.13.1/include/linux: posix_acl.h
+Only in ./linux-3.13.1/include/linux: posix_acl_xattr.h
+Only in ./linux-3.13.1/include/linux: posix-clock.h
+Only in ./linux-3.13.1/include/linux: posix-timers.h
+Only in ./linux-3.13.1/include/linux: power
+Only in ./linux-3.13.1/include/linux: powercap.h
+Only in ./linux-3.13.1/include/linux: power_supply.h
+Only in ./linux-3.13.1/include/linux: ppp_channel.h
+Only in ./linux-3.13.1/include/linux: ppp-comp.h
+Only in ./linux-3.13.1/include/linux: ppp_defs.h
+Only in ./linux-3.13.1/include/linux: pps-gpio.h
+Only in ./linux-3.13.1/include/linux: pps_kernel.h
+Only in ./linux-3.13.1/include/linux: preempt.h
+Only in ./linux-3.13.1/include/linux: preempt_mask.h
+Only in ./linux-3.13.1/include/linux: prefetch.h
+Only in ./linux-3.13.1/include/linux: printk.h
+Only in ./linux-3.13.1/include/linux: prio_heap.h
+Only in ./linux-3.13.1/include/linux: proc_fs.h
+Only in ./linux-3.13.1/include/linux: proc_ns.h
+Only in ./linux-3.13.1/include/linux: profile.h
+Only in ./linux-3.13.1/include/linux: projid.h
+Only in ./linux-3.13.1/include/linux: proportions.h
+Only in ./linux-3.13.1/include/linux: pstore.h
+Only in ./linux-3.13.1/include/linux: pstore_ram.h
+Only in ./linux-3.13.1/include/linux: pti.h
+Only in ./linux-3.13.1/include/linux: ptp_classify.h
+Only in ./linux-3.13.1/include/linux: ptp_clock_kernel.h
+Only in ./linux-3.13.1/include/linux: ptrace.h
+Only in ./linux-3.13.1/include/linux: pvclock_gtod.h
+Only in ./linux-3.13.1/include/linux: pwm_backlight.h
+Only in ./linux-3.13.1/include/linux: pwm.h
+Only in ./linux-3.13.1/include/linux: pxa168_eth.h
+Only in ./linux-3.13.1/include/linux: pxa2xx_ssp.h
+Only in ./linux-3.13.1/include/linux: qnx6_fs.h
+Only in ./linux-3.13.1/include/linux: quicklist.h
+Only in ./linux-3.13.1/include/linux: quota.h
+Only in ./linux-3.13.1/include/linux: quotaops.h
+Only in ./linux-3.13.1/include/linux: radix-tree.h
+Only in ./linux-3.13.1/include/linux: raid
+Only in ./linux-3.13.1/include/linux: raid_class.h
+Only in ./linux-3.13.1/include/linux: ramfs.h
+Only in ./linux-3.13.1/include/linux: random.h
+Only in ./linux-3.13.1/include/linux: range.h
+Only in ./linux-3.13.1/include/linux: ratelimit.h
+Only in ./linux-3.13.1/include/linux: rational.h
+Only in ./linux-3.13.1/include/linux: rbtree_augmented.h
+Only in ./linux-3.13.1/include/linux: rbtree.h
+Only in ./linux-3.13.1/include/linux: rculist_bl.h
+Only in ./linux-3.13.1/include/linux: rculist.h
+Only in ./linux-3.13.1/include/linux: rculist_nulls.h
+Only in ./linux-3.13.1/include/linux: rcupdate.h
+Only in ./linux-3.13.1/include/linux: rcutiny.h
+Only in ./linux-3.13.1/include/linux: rcutree.h
+Only in ./linux-3.13.1/include/linux: reboot.h
+Only in ./linux-3.13.1/include/linux: reciprocal_div.h
+Only in ./linux-3.13.1/include/linux: regmap.h
+Only in ./linux-3.13.1/include/linux: regset.h
+Only in ./linux-3.13.1/include/linux: regulator
+Only in ./linux-3.13.1/include/linux: relay.h
+Only in ./linux-3.13.1/include/linux: remoteproc.h
+Only in ./linux-3.13.1/include/linux: res_counter.h
+Only in ./linux-3.13.1/include/linux: reservation.h
+Only in ./linux-3.13.1/include/linux: reset-controller.h
+Only in ./linux-3.13.1/include/linux: reset.h
+Only in ./linux-3.13.1/include/linux: resource.h
+Only in ./linux-3.13.1/include/linux: resume-trace.h
+Only in ./linux-3.13.1/include/linux: rfkill-gpio.h
+Only in ./linux-3.13.1/include/linux: rfkill.h
+Only in ./linux-3.13.1/include/linux: rfkill-regulator.h
+Only in ./linux-3.13.1/include/linux: ring_buffer.h
+Only in ./linux-3.13.1/include/linux: rio_drv.h
+Only in ./linux-3.13.1/include/linux: rio.h
+Only in ./linux-3.13.1/include/linux: rio_ids.h
+Only in ./linux-3.13.1/include/linux: rio_regs.h
+Only in ./linux-3.13.1/include/linux: rmap.h
+Only in ./linux-3.13.1/include/linux: rndis.h
+Only in ./linux-3.13.1/include/linux: root_dev.h
+Only in ./linux-3.13.1/include/linux: rotary_encoder.h
+Only in ./linux-3.13.1/include/linux: rpmsg.h
+Only in ./linux-3.13.1/include/linux: rslib.h
+Only in ./linux-3.13.1/include/linux: rtc
+Only in ./linux-3.13.1/include/linux: rtc-ds2404.h
+Only in ./linux-3.13.1/include/linux: rtc.h
+Only in ./linux-3.13.1/include/linux: rtc-v3020.h
+Only in ./linux-3.13.1/include/linux: rtmutex.h
+Only in ./linux-3.13.1/include/linux: rtnetlink.h
+Only in ./linux-3.13.1/include/linux: rwlock_api_smp.h
+Only in ./linux-3.13.1/include/linux: rwlock.h
+Only in ./linux-3.13.1/include/linux: rwlock_types.h
+Only in ./linux-3.13.1/include/linux: rwsem.h
+Only in ./linux-3.13.1/include/linux: rwsem-spinlock.h
+Only in ./linux-3.13.1/include/linux: rxrpc.h
+Only in ./linux-3.13.1/include/linux: s3c_adc_battery.h
+Only in ./linux-3.13.1/include/linux: sa11x0-dma.h
+Only in ./linux-3.13.1/include/linux: scatterlist.h
+Only in ./linux-3.13.1/include/linux: scc.h
+Only in ./linux-3.13.1/include/linux: sched
+Only in ./linux-3.13.1/include/linux: sched_clock.h
+diff -rup ./linux-3.13.1/include/linux/sched.h ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/include/linux/sched.h
+--- ./linux-3.13.1/include/linux/sched.h	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/include/linux/sched.h	2017-07-31 09:44:30.000000000 +0800
+@@ -1219,6 +1219,15 @@ struct task_struct {
+ 	struct signal_struct *signal;
+ 	struct sighand_struct *sighand;
+ 
++	s64 freeze_time;
++	s64 wakeup_time;
++	s64 virt_start_time;
++	s64 past_physical_time;
++	s64 past_virtual_time;
++	int dilation_factor;
++	spinlock_t dialation_lock;
++	
++
+ 	sigset_t blocked, real_blocked;
+ 	sigset_t saved_sigmask;	/* restored if set_restore_sigmask() was used */
+ 	struct sigpending pending;
+Only in ./linux-3.13.1/include/linux: screen_info.h
+Only in ./linux-3.13.1/include/linux: sctp.h
+Only in ./linux-3.13.1/include/linux: scx200_gpio.h
+Only in ./linux-3.13.1/include/linux: scx200.h
+Only in ./linux-3.13.1/include/linux: sdb.h
+Only in ./linux-3.13.1/include/linux: sdla.h
+Only in ./linux-3.13.1/include/linux: seccomp.h
+Only in ./linux-3.13.1/include/linux: securebits.h
+Only in ./linux-3.13.1/include/linux: security.h
+Only in ./linux-3.13.1/include/linux: selection.h
+Only in ./linux-3.13.1/include/linux: selinux.h
+Only in ./linux-3.13.1/include/linux: semaphore.h
+Only in ./linux-3.13.1/include/linux: sem.h
+Only in ./linux-3.13.1/include/linux: seq_file.h
+Only in ./linux-3.13.1/include/linux: seq_file_net.h
+Only in ./linux-3.13.1/include/linux: seqlock.h
+Only in ./linux-3.13.1/include/linux: serial_8250.h
+Only in ./linux-3.13.1/include/linux: serial_core.h
+Only in ./linux-3.13.1/include/linux: serial.h
+Only in ./linux-3.13.1/include/linux: serial_max3100.h
+Only in ./linux-3.13.1/include/linux: serial_mfd.h
+Only in ./linux-3.13.1/include/linux: serial_pnx8xxx.h
+Only in ./linux-3.13.1/include/linux: serial_s3c.h
+Only in ./linux-3.13.1/include/linux: serial_sci.h
+Only in ./linux-3.13.1/include/linux: serio.h
+Only in ./linux-3.13.1/include/linux: sfi_acpi.h
+Only in ./linux-3.13.1/include/linux: sfi.h
+Only in ./linux-3.13.1/include/linux: sh_clk.h
+Only in ./linux-3.13.1/include/linux: shdma-base.h
+Only in ./linux-3.13.1/include/linux: sh_dma.h
+Only in ./linux-3.13.1/include/linux: sh_eth.h
+Only in ./linux-3.13.1/include/linux: sh_intc.h
+Only in ./linux-3.13.1/include/linux: shmem_fs.h
+Only in ./linux-3.13.1/include/linux: shm.h
+Only in ./linux-3.13.1/include/linux: shrinker.h
+Only in ./linux-3.13.1/include/linux: sh_timer.h
+Only in ./linux-3.13.1/include/linux: signalfd.h
+Only in ./linux-3.13.1/include/linux: signal.h
+Only in ./linux-3.13.1/include/linux: sirfsoc_dma.h
+Only in ./linux-3.13.1/include/linux: sizes.h
+Only in ./linux-3.13.1/include/linux: skbuff.h
+Only in ./linux-3.13.1/include/linux: slab_def.h
+Only in ./linux-3.13.1/include/linux: slab.h
+Only in ./linux-3.13.1/include/linux: slub_def.h
+Only in ./linux-3.13.1/include/linux: sm501.h
+Only in ./linux-3.13.1/include/linux: sm501-regs.h
+Only in ./linux-3.13.1/include/linux: smc911x.h
+Only in ./linux-3.13.1/include/linux: smc91x.h
+Only in ./linux-3.13.1/include/linux: smpboot.h
+Only in ./linux-3.13.1/include/linux: smp.h
+Only in ./linux-3.13.1/include/linux: smsc911x.h
+Only in ./linux-3.13.1/include/linux: smscphy.h
+Only in ./linux-3.13.1/include/linux: sock_diag.h
+Only in ./linux-3.13.1/include/linux: socket.h
+Only in ./linux-3.13.1/include/linux: sonet.h
+Only in ./linux-3.13.1/include/linux: sony-laptop.h
+Only in ./linux-3.13.1/include/linux: sonypi.h
+Only in ./linux-3.13.1/include/linux: sort.h
+Only in ./linux-3.13.1/include/linux: soundcard.h
+Only in ./linux-3.13.1/include/linux: sound.h
+Only in ./linux-3.13.1/include/linux: spi
+Only in ./linux-3.13.1/include/linux: spinlock_api_smp.h
+Only in ./linux-3.13.1/include/linux: spinlock_api_up.h
+Only in ./linux-3.13.1/include/linux: spinlock.h
+Only in ./linux-3.13.1/include/linux: spinlock_types.h
+Only in ./linux-3.13.1/include/linux: spinlock_types_up.h
+Only in ./linux-3.13.1/include/linux: spinlock_up.h
+Only in ./linux-3.13.1/include/linux: splice.h
+Only in ./linux-3.13.1/include/linux: srcu.h
+Only in ./linux-3.13.1/include/linux: ssb
+Only in ./linux-3.13.1/include/linux: ssbi.h
+Only in ./linux-3.13.1/include/linux: stackprotector.h
+Only in ./linux-3.13.1/include/linux: stacktrace.h
+Only in ./linux-3.13.1/include/linux: start_kernel.h
+Only in ./linux-3.13.1/include/linux: statfs.h
+Only in ./linux-3.13.1/include/linux: stat.h
+Only in ./linux-3.13.1/include/linux: static_key.h
+Only in ./linux-3.13.1/include/linux: stddef.h
+Only in ./linux-3.13.1/include/linux: ste_modem_shm.h
+Only in ./linux-3.13.1/include/linux: stmmac.h
+Only in ./linux-3.13.1/include/linux: stmp3xxx_rtc_wdt.h
+Only in ./linux-3.13.1/include/linux: stmp_device.h
+Only in ./linux-3.13.1/include/linux: stop_machine.h
+Only in ./linux-3.13.1/include/linux: string.h
+Only in ./linux-3.13.1/include/linux: string_helpers.h
+Only in ./linux-3.13.1/include/linux: stringify.h
+Only in ./linux-3.13.1/include/linux: sudmac.h
+Only in ./linux-3.13.1/include/linux: sungem_phy.h
+Only in ./linux-3.13.1/include/linux: sunrpc
+Only in ./linux-3.13.1/include/linux: sunserialcore.h
+Only in ./linux-3.13.1/include/linux: superhyway.h
+Only in ./linux-3.13.1/include/linux: suspend.h
+Only in ./linux-3.13.1/include/linux: svga.h
+Only in ./linux-3.13.1/include/linux: swab.h
+Only in ./linux-3.13.1/include/linux: swapfile.h
+Only in ./linux-3.13.1/include/linux: swap.h
+Only in ./linux-3.13.1/include/linux: swapops.h
+Only in ./linux-3.13.1/include/linux: swiotlb.h
+Only in ./linux-3.13.1/include/linux: synclink.h
+diff -rup ./linux-3.13.1/include/linux/syscalls.h ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/include/linux/syscalls.h
+--- ./linux-3.13.1/include/linux/syscalls.h	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/include/linux/syscalls.h	2017-07-31 09:44:30.000000000 +0800
+@@ -598,6 +598,9 @@ asmlinkage long sys_poll(struct pollfd _
+ 				int timeout);
+ asmlinkage long sys_select(int n, fd_set __user *inp, fd_set __user *outp,
+ 			fd_set __user *exp, struct timeval __user *tvp);
++asmlinkage long sys_select_dialated(int n, fd_set __user *inp, fd_set __user *outp,
++			fd_set __user *exp, struct timeval __user *tvp);
++
+ asmlinkage long sys_old_select(struct sel_arg_struct __user *arg);
+ asmlinkage long sys_epoll_create(int size);
+ asmlinkage long sys_epoll_create1(int flags);
+@@ -812,6 +815,11 @@ asmlinkage long sys_clone(unsigned long,
+ #endif
+ #endif
+ 
++asmlinkage long sys_gettimeofdayreal(struct timeval __user *tv,
++                                struct timezone __user *tz);
++asmlinkage long sys_gettimepid(pid_t pid, struct timeval __user *tv,
++                                struct timezone __user *tz);
++
+ asmlinkage long sys_execve(const char __user *filename,
+ 		const char __user *const __user *argv,
+ 		const char __user *const __user *envp);
+Only in ./linux-3.13.1/include/linux: syscore_ops.h
+Only in ./linux-3.13.1/include/linux: sysctl.h
+Only in ./linux-3.13.1/include/linux: sysfs.h
+Only in ./linux-3.13.1/include/linux: sys.h
+Only in ./linux-3.13.1/include/linux: syslog.h
+Only in ./linux-3.13.1/include/linux: sysrq.h
+Only in ./linux-3.13.1/include/linux: sys_soc.h
+Only in ./linux-3.13.1/include/linux: sysv_fs.h
+Only in ./linux-3.13.1/include/linux: task_io_accounting.h
+Only in ./linux-3.13.1/include/linux: task_io_accounting_ops.h
+Only in ./linux-3.13.1/include/linux: taskstats_kern.h
+Only in ./linux-3.13.1/include/linux: task_work.h
+Only in ./linux-3.13.1/include/linux: tboot.h
+Only in ./linux-3.13.1/include/linux: tca6416_keypad.h
+Only in ./linux-3.13.1/include/linux: tc.h
+Only in ./linux-3.13.1/include/linux: tcp.h
+Only in ./linux-3.13.1/include/linux: tegra-ahb.h
+Only in ./linux-3.13.1/include/linux: tegra-cpuidle.h
+Only in ./linux-3.13.1/include/linux: tegra-powergate.h
+Only in ./linux-3.13.1/include/linux: tegra-soc.h
+Only in ./linux-3.13.1/include/linux: textsearch_fsm.h
+Only in ./linux-3.13.1/include/linux: textsearch.h
+Only in ./linux-3.13.1/include/linux: tfrc.h
+Only in ./linux-3.13.1/include/linux: thermal.h
+Only in ./linux-3.13.1/include/linux: thinkpad_acpi.h
+Only in ./linux-3.13.1/include/linux: thread_info.h
+Only in ./linux-3.13.1/include/linux: threads.h
+Only in ./linux-3.13.1/include/linux: tick.h
+Only in ./linux-3.13.1/include/linux: tifm.h
+Only in ./linux-3.13.1/include/linux: timb_dma.h
+Only in ./linux-3.13.1/include/linux: timb_gpio.h
+Only in ./linux-3.13.1/include/linux: time.h
+Only in ./linux-3.13.1/include/linux: timekeeper_internal.h
+Only in ./linux-3.13.1/include/linux: timerfd.h
+Only in ./linux-3.13.1/include/linux: timer.h
+Only in ./linux-3.13.1/include/linux: timeriomem-rng.h
+Only in ./linux-3.13.1/include/linux: timerqueue.h
+Only in ./linux-3.13.1/include/linux: timex.h
+Only in ./linux-3.13.1/include/linux: ti_wilink_st.h
+Only in ./linux-3.13.1/include/linux: topology.h
+Only in ./linux-3.13.1/include/linux: toshiba.h
+Only in ./linux-3.13.1/include/linux: tpm_command.h
+Only in ./linux-3.13.1/include/linux: tpm.h
+Only in ./linux-3.13.1/include/linux: trace_clock.h
+Only in ./linux-3.13.1/include/linux: tracehook.h
+Only in ./linux-3.13.1/include/linux: tracepoint.h
+Only in ./linux-3.13.1/include/linux: trace_seq.h
+Only in ./linux-3.13.1/include/linux: transport_class.h
+Only in ./linux-3.13.1/include/linux: tsacct_kern.h
+Only in ./linux-3.13.1/include/linux: tty_driver.h
+Only in ./linux-3.13.1/include/linux: tty_flip.h
+Only in ./linux-3.13.1/include/linux: tty.h
+Only in ./linux-3.13.1/include/linux: tty_ldisc.h
+Only in ./linux-3.13.1/include/linux: typecheck.h
+Only in ./linux-3.13.1/include/linux: types.h
+Only in ./linux-3.13.1/include/linux: u64_stats_sync.h
+Only in ./linux-3.13.1/include/linux: uaccess.h
+Only in ./linux-3.13.1/include/linux: ucb1400.h
+Only in ./linux-3.13.1/include/linux: ucs2_string.h
+Only in ./linux-3.13.1/include/linux: udp.h
+Only in ./linux-3.13.1/include/linux: uidgid.h
+Only in ./linux-3.13.1/include/linux: uinput.h
+Only in ./linux-3.13.1/include/linux: uio_driver.h
+Only in ./linux-3.13.1/include/linux: uio.h
+Only in ./linux-3.13.1/include/linux: unaligned
+Only in ./linux-3.13.1/include/linux: uprobes.h
+Only in ./linux-3.13.1/include/linux: usb
+Only in ./linux-3.13.1/include/linux: usbdevice_fs.h
+Only in ./linux-3.13.1/include/linux: usb.h
+Only in ./linux-3.13.1/include/linux: usb_usual.h
+Only in ./linux-3.13.1/include/linux: user.h
+Only in ./linux-3.13.1/include/linux: user_namespace.h
+Only in ./linux-3.13.1/include/linux: user-return-notifier.h
+Only in ./linux-3.13.1/include/linux: uts.h
+Only in ./linux-3.13.1/include/linux: utsname.h
+Only in ./linux-3.13.1/include/linux: uuid.h
+Only in ./linux-3.13.1/include/linux: uwb
+Only in ./linux-3.13.1/include/linux: uwb.h
+Only in ./linux-3.13.1/include/linux: vermagic.h
+Only in ./linux-3.13.1/include/linux: vexpress.h
+Only in ./linux-3.13.1/include/linux: vfio.h
+Only in ./linux-3.13.1/include/linux: vfs.h
+Only in ./linux-3.13.1/include/linux: vgaarb.h
+Only in ./linux-3.13.1/include/linux: vga_switcheroo.h
+Only in ./linux-3.13.1/include/linux: via-core.h
+Only in ./linux-3.13.1/include/linux: via-gpio.h
+Only in ./linux-3.13.1/include/linux: via.h
+Only in ./linux-3.13.1/include/linux: via_i2c.h
+Only in ./linux-3.13.1/include/linux: videodev2.h
+Only in ./linux-3.13.1/include/linux: video_output.h
+Only in ./linux-3.13.1/include/linux: virtio_caif.h
+Only in ./linux-3.13.1/include/linux: virtio_config.h
+Only in ./linux-3.13.1/include/linux: virtio_console.h
+Only in ./linux-3.13.1/include/linux: virtio.h
+Only in ./linux-3.13.1/include/linux: virtio_mmio.h
+Only in ./linux-3.13.1/include/linux: virtio_ring.h
+Only in ./linux-3.13.1/include/linux: virtio_scsi.h
+Only in ./linux-3.13.1/include/linux: vlynq.h
+Only in ./linux-3.13.1/include/linux: vmalloc.h
+Only in ./linux-3.13.1/include/linux: vme.h
+Only in ./linux-3.13.1/include/linux: vm_event_item.h
+Only in ./linux-3.13.1/include/linux: vmpressure.h
+Only in ./linux-3.13.1/include/linux: vm_sockets.h
+Only in ./linux-3.13.1/include/linux: vmstat.h
+Only in ./linux-3.13.1/include/linux: vmw_vmci_api.h
+Only in ./linux-3.13.1/include/linux: vmw_vmci_defs.h
+Only in ./linux-3.13.1/include/linux: vringh.h
+Only in ./linux-3.13.1/include/linux: vt_buffer.h
+Only in ./linux-3.13.1/include/linux: vt.h
+Only in ./linux-3.13.1/include/linux: vtime.h
+Only in ./linux-3.13.1/include/linux: vt_kern.h
+Only in ./linux-3.13.1/include/linux: w1-gpio.h
+Only in ./linux-3.13.1/include/linux: wait.h
+Only in ./linux-3.13.1/include/linux: wanrouter.h
+Only in ./linux-3.13.1/include/linux: watchdog.h
+Only in ./linux-3.13.1/include/linux: wimax
+Only in ./linux-3.13.1/include/linux: wireless.h
+Only in ./linux-3.13.1/include/linux: wl12xx.h
+Only in ./linux-3.13.1/include/linux: wm97xx.h
+Only in ./linux-3.13.1/include/linux: workqueue.h
+Only in ./linux-3.13.1/include/linux: writeback.h
+Only in ./linux-3.13.1/include/linux: ww_mutex.h
+Only in ./linux-3.13.1/include/linux: xattr.h
+Only in ./linux-3.13.1/include/linux: xilinxfb.h
+Only in ./linux-3.13.1/include/linux: xz.h
+Only in ./linux-3.13.1/include/linux: yam.h
+Only in ./linux-3.13.1/include/linux: z2_battery.h
+Only in ./linux-3.13.1/include/linux: zbud.h
+Only in ./linux-3.13.1/include/linux: zconf.h
+Only in ./linux-3.13.1/include/linux: zlib.h
+Only in ./linux-3.13.1/include/linux: zorro.h
+Only in ./linux-3.13.1/include/linux: zorro_ids.h
+Only in ./linux-3.13.1/include/linux: zutil.h
+Only in ./linux-3.13.1/include: math-emu
+Only in ./linux-3.13.1/include: media
+Only in ./linux-3.13.1/include: memory
+Only in ./linux-3.13.1/include: misc
+Only in ./linux-3.13.1/include/net: 9p
+Only in ./linux-3.13.1/include/net: act_api.h
+Only in ./linux-3.13.1/include/net: addrconf.h
+Only in ./linux-3.13.1/include/net: af_ieee802154.h
+Only in ./linux-3.13.1/include/net: af_rxrpc.h
+Only in ./linux-3.13.1/include/net: af_unix.h
+Only in ./linux-3.13.1/include/net: af_vsock.h
+Only in ./linux-3.13.1/include/net: ah.h
+Only in ./linux-3.13.1/include/net: arp.h
+Only in ./linux-3.13.1/include/net: atmclip.h
+Only in ./linux-3.13.1/include/net: ax25.h
+Only in ./linux-3.13.1/include/net: ax88796.h
+Only in ./linux-3.13.1/include/net: bluetooth
+Only in ./linux-3.13.1/include/net: busy_poll.h
+Only in ./linux-3.13.1/include/net: caif
+Only in ./linux-3.13.1/include/net: cfg80211.h
+Only in ./linux-3.13.1/include/net: cfg80211-wext.h
+Only in ./linux-3.13.1/include/net: checksum.h
+Only in ./linux-3.13.1/include/net: cipso_ipv4.h
+Only in ./linux-3.13.1/include/net: cls_cgroup.h
+Only in ./linux-3.13.1/include/net: codel.h
+Only in ./linux-3.13.1/include/net: compat.h
+Only in ./linux-3.13.1/include/net: datalink.h
+Only in ./linux-3.13.1/include/net: dcbevent.h
+Only in ./linux-3.13.1/include/net: dcbnl.h
+Only in ./linux-3.13.1/include/net: dn_dev.h
+Only in ./linux-3.13.1/include/net: dn_fib.h
+Only in ./linux-3.13.1/include/net: dn.h
+Only in ./linux-3.13.1/include/net: dn_neigh.h
+Only in ./linux-3.13.1/include/net: dn_nsp.h
+Only in ./linux-3.13.1/include/net: dn_route.h
+Only in ./linux-3.13.1/include/net: dsa.h
+Only in ./linux-3.13.1/include/net: dsfield.h
+Only in ./linux-3.13.1/include/net: dst.h
+Only in ./linux-3.13.1/include/net: dst_ops.h
+Only in ./linux-3.13.1/include/net: esp.h
+Only in ./linux-3.13.1/include/net: ethoc.h
+Only in ./linux-3.13.1/include/net: fib_rules.h
+Only in ./linux-3.13.1/include/net: firewire.h
+Only in ./linux-3.13.1/include/net: flow.h
+Only in ./linux-3.13.1/include/net: flow_keys.h
+Only in ./linux-3.13.1/include/net: garp.h
+Only in ./linux-3.13.1/include/net: genetlink.h
+Only in ./linux-3.13.1/include/net: gen_stats.h
+Only in ./linux-3.13.1/include/net: gre.h
+Only in ./linux-3.13.1/include/net: gro_cells.h
+Only in ./linux-3.13.1/include/net: icmp.h
+Only in ./linux-3.13.1/include/net: ieee80211_radiotap.h
+Only in ./linux-3.13.1/include/net: ieee802154.h
+Only in ./linux-3.13.1/include/net: ieee802154_netdev.h
+Only in ./linux-3.13.1/include/net: if_inet6.h
+Only in ./linux-3.13.1/include/net: inet6_connection_sock.h
+Only in ./linux-3.13.1/include/net: inet6_hashtables.h
+Only in ./linux-3.13.1/include/net: inet_common.h
+Only in ./linux-3.13.1/include/net: inet_connection_sock.h
+Only in ./linux-3.13.1/include/net: inet_ecn.h
+Only in ./linux-3.13.1/include/net: inet_frag.h
+Only in ./linux-3.13.1/include/net: inet_hashtables.h
+Only in ./linux-3.13.1/include/net: inetpeer.h
+Only in ./linux-3.13.1/include/net: inet_sock.h
+Only in ./linux-3.13.1/include/net: inet_timewait_sock.h
+Only in ./linux-3.13.1/include/net: ip6_checksum.h
+Only in ./linux-3.13.1/include/net: ip6_fib.h
+Only in ./linux-3.13.1/include/net: ip6_route.h
+Only in ./linux-3.13.1/include/net: ip6_tunnel.h
+Only in ./linux-3.13.1/include/net: ipcomp.h
+Only in ./linux-3.13.1/include/net: ipconfig.h
+Only in ./linux-3.13.1/include/net: ip_fib.h
+Only in ./linux-3.13.1/include/net: ip.h
+Only in ./linux-3.13.1/include/net: ip_tunnels.h
+Only in ./linux-3.13.1/include/net: ipv6.h
+Only in ./linux-3.13.1/include/net: ip_vs.h
+Only in ./linux-3.13.1/include/net: ipx.h
+Only in ./linux-3.13.1/include/net: irda
+Only in ./linux-3.13.1/include/net: iucv
+Only in ./linux-3.13.1/include/net: iw_handler.h
+Only in ./linux-3.13.1/include/net: lapb.h
+Only in ./linux-3.13.1/include/net: lib80211.h
+Only in ./linux-3.13.1/include/net: llc_c_ac.h
+Only in ./linux-3.13.1/include/net: llc_c_ev.h
+Only in ./linux-3.13.1/include/net: llc_conn.h
+Only in ./linux-3.13.1/include/net: llc_c_st.h
+Only in ./linux-3.13.1/include/net: llc.h
+Only in ./linux-3.13.1/include/net: llc_if.h
+Only in ./linux-3.13.1/include/net: llc_pdu.h
+Only in ./linux-3.13.1/include/net: llc_s_ac.h
+Only in ./linux-3.13.1/include/net: llc_sap.h
+Only in ./linux-3.13.1/include/net: llc_s_ev.h
+Only in ./linux-3.13.1/include/net: llc_s_st.h
+Only in ./linux-3.13.1/include/net: mac80211.h
+Only in ./linux-3.13.1/include/net: mac802154.h
+Only in ./linux-3.13.1/include/net: mip6.h
+Only in ./linux-3.13.1/include/net: mld.h
+Only in ./linux-3.13.1/include/net: mrp.h
+Only in ./linux-3.13.1/include/net: ndisc.h
+Only in ./linux-3.13.1/include/net: neighbour.h
+Only in ./linux-3.13.1/include/net: netdma.h
+Only in ./linux-3.13.1/include/net: netevent.h
+Only in ./linux-3.13.1/include/net: netfilter
+Only in ./linux-3.13.1/include/net: netlabel.h
+Only in ./linux-3.13.1/include/net: netlink.h
+Only in ./linux-3.13.1/include/net: net_namespace.h
+Only in ./linux-3.13.1/include/net: netns
+Only in ./linux-3.13.1/include/net: netprio_cgroup.h
+Only in ./linux-3.13.1/include/net: net_ratelimit.h
+Only in ./linux-3.13.1/include/net: netrom.h
+Only in ./linux-3.13.1/include/net: nexthop.h
+Only in ./linux-3.13.1/include/net: nfc
+Only in ./linux-3.13.1/include/net: nl802154.h
+Only in ./linux-3.13.1/include/net: p8022.h
+Only in ./linux-3.13.1/include/net: phonet
+Only in ./linux-3.13.1/include/net: ping.h
+Only in ./linux-3.13.1/include/net: pkt_cls.h
+diff -rup ./linux-3.13.1/include/net/pkt_sched.h ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/include/net/pkt_sched.h
+--- ./linux-3.13.1/include/net/pkt_sched.h	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/include/net/pkt_sched.h	2017-07-31 09:44:30.000000000 +0800
+@@ -2,8 +2,20 @@
+ #define __NET_PKT_SCHED_H
+ 
+ #include <linux/jiffies.h>
++#include <linux/types.h>
+ #include <linux/ktime.h>
+ #include <net/sch_generic.h>
++#include <linux/fs.h>
++#include <linux/pid.h>
++
++#include <net/netlink.h>
++#include <net/pkt_sched.h>
++#include <net/inet_ecn.h>
++#include <net/sock.h>
++
++
++
++
+ 
+ struct qdisc_walker {
+ 	int	stop;
+@@ -20,6 +32,10 @@ static inline void *qdisc_priv(struct Qd
+ 	return (char *) q + QDISC_ALIGN(sizeof(struct Qdisc));
+ }
+ 
++struct task_struct * get_task_struct_from_qdisc(struct Qdisc *);
++
++s64 get_current_dilated_time(struct task_struct *);
++
+ /* 
+    Timer resolution MUST BE < 10% of min_schedulable_packet_size/bandwidth
+    
+@@ -40,6 +56,21 @@ static inline void *qdisc_priv(struct Qd
+ typedef u64	psched_time_t;
+ typedef long	psched_tdiff_t;
+ 
++
++
++struct netem_skb_cb {
++        s64   time_to_send;
++        ktime_t         tstamp_save;
++};
++
++static inline struct netem_skb_cb *netem_skb_cb(struct sk_buff *skb)
++{
++        /* we assume we can use skb next/prev/tstamp as storage for rb_node */
++        qdisc_cb_private_validate(skb, sizeof(struct netem_skb_cb));
++        return (struct netem_skb_cb *)qdisc_skb_cb(skb)->data;
++}
++
++
+ /* Avoid doing 64 bit divide */
+ #define PSCHED_SHIFT			6
+ #define PSCHED_TICKS2NS(x)		((s64)(x) << PSCHED_SHIFT)
+@@ -61,11 +92,74 @@ psched_tdiff_bounded(psched_time_t tv1,
+ 
+ struct qdisc_watchdog {
+ 	struct hrtimer	timer;
++	struct hrtimer	timer_dilated;
+ 	struct Qdisc	*qdisc;
++        struct sk_buff  *skb;
++	struct pid * owner_pid;
+ };
+ 
++struct netem_sched_data {
++	/* internal t(ime)fifo qdisc uses t_root and sch->limit */
++	struct rb_root t_root;
++
++	/* optional qdisc for classful handling (NULL at netem init) */
++	struct Qdisc	*qdisc;
++
++	struct qdisc_watchdog watchdog;
++
++	psched_tdiff_t latency;
++	psched_tdiff_t jitter;
++
++	u32 loss;
++	u32 ecn;
++	u32 limit;
++	u32 counter;
++	u32 gap;
++	u32 duplicate;
++	u32 reorder;
++	u32 corrupt;
++	u32 rate;
++	s32 packet_overhead;
++	u32 cell_size;
++	u32 cell_size_reciprocal;
++	s32 cell_overhead;
++
++	struct crndstate {
++		u32 last;
++		u32 rho;
++	} delay_cor, loss_cor, dup_cor, reorder_cor, corrupt_cor;
++
++	struct disttable {
++		u32  size;
++		s16 table[0];
++	} *delay_dist;
++
++	enum  {
++		CLG_RANDOM,
++		CLG_4_STATES,
++		CLG_GILB_ELL,
++	} loss_model;
++
++	/* Correlated Loss Generation models */
++	struct clgstate {
++		/* state of the Markov chain */
++		u8 state;
++
++		/* 4-states and Gilbert-Elliot models */
++		u32 a1;	/* p13 for 4-states or p for GE */
++		u32 a2;	/* p31 for 4-states or r for GE */
++		u32 a3;	/* p32 for 4-states or h for GE */
++		u32 a4;	/* p14 for 4-states or 1-k for GE */
++		u32 a5; /* p23 used only in 4-states */
++	} clg;
++
++};
++
++
++
+ void qdisc_watchdog_init(struct qdisc_watchdog *wd, struct Qdisc *qdisc);
+ void qdisc_watchdog_schedule_ns(struct qdisc_watchdog *wd, u64 expires);
++void qdisc_watchdog_schedule_ns_dilated(struct qdisc_watchdog *wd, u64 expires);
+ 
+ static inline void qdisc_watchdog_schedule(struct qdisc_watchdog *wd,
+ 					   psched_time_t expires)
+@@ -73,6 +167,15 @@ static inline void qdisc_watchdog_schedu
+ 	qdisc_watchdog_schedule_ns(wd, PSCHED_TICKS2NS(expires));
+ }
+ 
++
++static inline void qdisc_watchdog_schedule_dilated(struct qdisc_watchdog *wd,
++                                           psched_time_t expires)
++{
++        qdisc_watchdog_schedule_ns_dilated(wd, PSCHED_TICKS2NS(expires));
++}
++
++
++
+ void qdisc_watchdog_cancel(struct qdisc_watchdog *wd);
+ 
+ extern struct Qdisc_ops pfifo_qdisc_ops;
+Only in ./linux-3.13.1/include/net: protocol.h
+Only in ./linux-3.13.1/include/net: psnap.h
+Only in ./linux-3.13.1/include/net: raw.h
+Only in ./linux-3.13.1/include/net: rawv6.h
+Only in ./linux-3.13.1/include/net: red.h
+Only in ./linux-3.13.1/include/net: regulatory.h
+Only in ./linux-3.13.1/include/net: request_sock.h
+Only in ./linux-3.13.1/include/net: rose.h
+Only in ./linux-3.13.1/include/net: route.h
+Only in ./linux-3.13.1/include/net: rtnetlink.h
+Only in ./linux-3.13.1/include/net: sch_generic.h
+Only in ./linux-3.13.1/include/net: scm.h
+Only in ./linux-3.13.1/include/net: sctp
+Only in ./linux-3.13.1/include/net: secure_seq.h
+Only in ./linux-3.13.1/include/net: slhc_vj.h
+Only in ./linux-3.13.1/include/net: snmp.h
+Only in ./linux-3.13.1/include/net: sock.h
+Only in ./linux-3.13.1/include/net: stp.h
+Only in ./linux-3.13.1/include/net: tc_act
+Only in ./linux-3.13.1/include/net: tcp.h
+Only in ./linux-3.13.1/include/net: tcp_memcontrol.h
+Only in ./linux-3.13.1/include/net: tcp_states.h
+Only in ./linux-3.13.1/include/net: timewait_sock.h
+Only in ./linux-3.13.1/include/net: transp_v6.h
+Only in ./linux-3.13.1/include/net: udp.h
+Only in ./linux-3.13.1/include/net: udplite.h
+Only in ./linux-3.13.1/include/net: vsock_addr.h
+Only in ./linux-3.13.1/include/net: vxlan.h
+Only in ./linux-3.13.1/include/net: wext.h
+Only in ./linux-3.13.1/include/net: wimax.h
+Only in ./linux-3.13.1/include/net: wpan-phy.h
+Only in ./linux-3.13.1/include/net: x25device.h
+Only in ./linux-3.13.1/include/net: x25.h
+Only in ./linux-3.13.1/include/net: xfrm.h
+Only in ./linux-3.13.1/include: pcmcia
+Only in ./linux-3.13.1/include: ras
+Only in ./linux-3.13.1/include: rdma
+Only in ./linux-3.13.1/include: rxrpc
+Only in ./linux-3.13.1/include: scsi
+Only in ./linux-3.13.1/include: sound
+Only in ./linux-3.13.1/include: target
+Only in ./linux-3.13.1/include: trace
+Only in ./linux-3.13.1/include: uapi
+Only in ./linux-3.13.1/include: video
+Only in ./linux-3.13.1/include: xen
+Only in ./linux-3.13.1/: init
+Only in ./linux-3.13.1/: ipc
+Only in ./linux-3.13.1/: Kbuild
+Only in ./linux-3.13.1/: Kconfig
+Only in ./linux-3.13.1/kernel: acct.c
+Only in ./linux-3.13.1/kernel: async.c
+Only in ./linux-3.13.1/kernel: audit.c
+Only in ./linux-3.13.1/kernel: auditfilter.c
+Only in ./linux-3.13.1/kernel: audit.h
+Only in ./linux-3.13.1/kernel: auditsc.c
+Only in ./linux-3.13.1/kernel: audit_tree.c
+Only in ./linux-3.13.1/kernel: audit_watch.c
+Only in ./linux-3.13.1/kernel: backtracetest.c
+Only in ./linux-3.13.1/kernel: bounds.c
+Only in ./linux-3.13.1/kernel: capability.c
+Only in ./linux-3.13.1/kernel: cgroup.c
+Only in ./linux-3.13.1/kernel: cgroup_freezer.c
+Only in ./linux-3.13.1/kernel: compat.c
+Only in ./linux-3.13.1/kernel: configs.c
+Only in ./linux-3.13.1/kernel: context_tracking.c
+Only in ./linux-3.13.1/kernel: cpu
+Only in ./linux-3.13.1/kernel: cpu.c
+Only in ./linux-3.13.1/kernel: cpu_pm.c
+Only in ./linux-3.13.1/kernel: cpuset.c
+Only in ./linux-3.13.1/kernel: crash_dump.c
+Only in ./linux-3.13.1/kernel: cred.c
+Only in ./linux-3.13.1/kernel: debug
+Only in ./linux-3.13.1/kernel: delayacct.c
+Only in ./linux-3.13.1/kernel: dma.c
+Only in ./linux-3.13.1/kernel: elfcore.c
+Only in ./linux-3.13.1/kernel: events
+Only in ./linux-3.13.1/kernel: exec_domain.c
+Only in ./linux-3.13.1/kernel: exit.c
+Only in ./linux-3.13.1/kernel: extable.c
+Only in ./linux-3.13.1/kernel: fork.c
+Only in ./linux-3.13.1/kernel: freezer.c
+Only in ./linux-3.13.1/kernel: futex.c
+Only in ./linux-3.13.1/kernel: futex_compat.c
+Only in ./linux-3.13.1/kernel: gcov
+Only in ./linux-3.13.1/kernel: .gitignore
+Only in ./linux-3.13.1/kernel: groups.c
+diff -rup ./linux-3.13.1/kernel/hrtimer.c ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/kernel/hrtimer.c
+--- ./linux-3.13.1/kernel/hrtimer.c	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/kernel/hrtimer.c	2017-07-31 09:44:30.000000000 +0800
+@@ -1646,6 +1646,23 @@ SYSCALL_DEFINE2(nanosleep, struct timesp
+ 		struct timespec __user *, rmtp)
+ {
+ 	struct timespec tu;
++	s32 rem;
++
++	if (current->dilation_factor != 0) {
++		struct timespec tempStruct;
++		s64 tempVal = timespec_to_ns(rqtp);
++		if (current->dilation_factor > 0){
++			tempVal = tempVal*current->dilation_factor;
++			tempVal = div_s64_rem(tempVal,1000,&rem);
++		}
++		else if (current->dilation_factor < 0) {
++			//need to be careful of 64-bit overflow here?
++			tempVal = div_s64_rem(tempVal*1000,current->dilation_factor*(-1),&rem);
++		}
++		tempStruct = ns_to_timespec(tempVal);
++		rqtp->tv_sec = tempStruct.tv_sec;
++		rqtp->tv_nsec = tempStruct.tv_nsec;
++	}
+ 
+ 	if (copy_from_user(&tu, rqtp, sizeof(tu)))
+ 		return -EFAULT;
+Only in ./linux-3.13.1/kernel: hung_task.c
+Only in ./linux-3.13.1/kernel: irq
+Only in ./linux-3.13.1/kernel: irq_work.c
+Only in ./linux-3.13.1/kernel: itimer.c
+Only in ./linux-3.13.1/kernel: jump_label.c
+Only in ./linux-3.13.1/kernel: kallsyms.c
+Only in ./linux-3.13.1/kernel: kcmp.c
+Only in ./linux-3.13.1/kernel: Kconfig.freezer
+Only in ./linux-3.13.1/kernel: Kconfig.hz
+Only in ./linux-3.13.1/kernel: Kconfig.locks
+Only in ./linux-3.13.1/kernel: Kconfig.preempt
+Only in ./linux-3.13.1/kernel: kexec.c
+Only in ./linux-3.13.1/kernel: kmod.c
+Only in ./linux-3.13.1/kernel: kprobes.c
+Only in ./linux-3.13.1/kernel: ksysfs.c
+Only in ./linux-3.13.1/kernel: kthread.c
+Only in ./linux-3.13.1/kernel: latencytop.c
+Only in ./linux-3.13.1/kernel: locking
+Only in ./linux-3.13.1/kernel: Makefile
+Only in ./linux-3.13.1/kernel: module.c
+Only in ./linux-3.13.1/kernel: module-internal.h
+Only in ./linux-3.13.1/kernel: module_signing.c
+Only in ./linux-3.13.1/kernel: notifier.c
+Only in ./linux-3.13.1/kernel: nsproxy.c
+Only in ./linux-3.13.1/kernel: padata.c
+Only in ./linux-3.13.1/kernel: panic.c
+Only in ./linux-3.13.1/kernel: params.c
+Only in ./linux-3.13.1/kernel: pid.c
+Only in ./linux-3.13.1/kernel: pid_namespace.c
+Only in ./linux-3.13.1/kernel: posix-cpu-timers.c
+Only in ./linux-3.13.1/kernel: posix-timers.c
+Only in ./linux-3.13.1/kernel: power
+Only in ./linux-3.13.1/kernel: printk
+Only in ./linux-3.13.1/kernel: profile.c
+Only in ./linux-3.13.1/kernel: ptrace.c
+Only in ./linux-3.13.1/kernel: range.c
+Only in ./linux-3.13.1/kernel: rcu
+Only in ./linux-3.13.1/kernel: reboot.c
+Only in ./linux-3.13.1/kernel: relay.c
+Only in ./linux-3.13.1/kernel: res_counter.c
+Only in ./linux-3.13.1/kernel: resource.c
+Only in ./linux-3.13.1/kernel: sched
+Only in ./linux-3.13.1/kernel: seccomp.c
+diff -rup ./linux-3.13.1/kernel/signal.c ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/kernel/signal.c
+--- ./linux-3.13.1/kernel/signal.c	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/kernel/signal.c	2017-07-31 09:44:30.000000000 +0800
+@@ -880,16 +880,31 @@ static bool prepare_signal(int sig, stru
+ 		/*
+ 		 * Remove all stop signals from all queues, wake all threads.
+ 		 */
++
++		
+ 		rm_from_queue(SIG_KERNEL_STOP_MASK, &signal->shared_pending);
+ 		t = p;
+-		do {
++		/*if(t->virt_start_time != 0 ) {
+ 			task_clear_jobctl_pending(t, JOBCTL_STOP_PENDING);
+ 			rm_from_queue(SIG_KERNEL_STOP_MASK, &t->pending);
+ 			if (likely(!(t->ptrace & PT_SEIZED)))
+ 				wake_up_state(t, __TASK_STOPPED);
+ 			else
+ 				ptrace_trap_notify(t);
+-		} while_each_thread(p, t);
++			
++
++		}*/
++		//else {
++			t = p;
++			do {
++				task_clear_jobctl_pending(t, JOBCTL_STOP_PENDING);
++				rm_from_queue(SIG_KERNEL_STOP_MASK, &t->pending);
++				if (likely(!(t->ptrace & PT_SEIZED)))
++					wake_up_state(t, __TASK_STOPPED);
++				else
++					ptrace_trap_notify(t);
++			} while_each_thread(p, t);
++		//}
+ 
+ 		/*
+ 		 * Notify the parent with CLD_CONTINUED if we were stopped.
+Only in ./linux-3.13.1/kernel: smpboot.c
+Only in ./linux-3.13.1/kernel: smpboot.h
+Only in ./linux-3.13.1/kernel: smp.c
+Only in ./linux-3.13.1/kernel: softirq.c
+Only in ./linux-3.13.1/kernel: stacktrace.c
+Only in ./linux-3.13.1/kernel: stop_machine.c
+Only in ./linux-3.13.1/kernel: sys.c
+Only in ./linux-3.13.1/kernel: sysctl_binary.c
+Only in ./linux-3.13.1/kernel: sysctl.c
+Only in ./linux-3.13.1/kernel: sys_ni.c
+Only in ./linux-3.13.1/kernel: system_certificates.S
+Only in ./linux-3.13.1/kernel: system_keyring.c
+Only in ./linux-3.13.1/kernel: taskstats.c
+Only in ./linux-3.13.1/kernel: task_work.c
+Only in ./linux-3.13.1/kernel: test_kprobes.c
+Only in ./linux-3.13.1/kernel: time
+diff -rup ./linux-3.13.1/kernel/time.c ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/kernel/time.c
+--- ./linux-3.13.1/kernel/time.c	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/kernel/time.c	2017-07-31 09:44:30.000000000 +0800
+@@ -61,14 +61,63 @@ EXPORT_SYMBOL(sys_tz);
+  */
+ SYSCALL_DEFINE1(time, time_t __user *, tloc)
+ {
+-	time_t i = get_seconds();
++	
++	struct timeval ktv;
++	do_gettimeofday(&ktv);
++	if(current->virt_start_time != 0){
++		struct task_struct* task;
++		task = current;
++		if (current->group_leader != current) { //use virtual time of the leader thread
++		            	task = current->group_leader;
++		}
++		s64 now = timeval_to_ns(&ktv);
++		s32 rem;
++		s64 real_running_time;
++		s64 dilated_running_time;
++
++		if(task->freeze_time == 0){
++			real_running_time = now - task->virt_start_time;
++		}
++		else{
++			real_running_time = task->freeze_time - task->virt_start_time;
++		}
++	
++		if (task->dilation_factor > 0) {
++			dilated_running_time = div_s64_rem( (real_running_time - task->past_physical_time)*1000 ,task->dilation_factor,&rem) + task->past_virtual_time;
++			now = dilated_running_time + task->virt_start_time;
++		}
++		else if (task->dilation_factor < 0) {
++			dilated_running_time = div_s64_rem( (real_running_time - task->past_physical_time)*(task->dilation_factor*-1),1000,&rem) + task->past_virtual_time;
++			now =  dilated_running_time + task->virt_start_time;
++		}
++		else {
++			dilated_running_time = (real_running_time - task->past_physical_time) + task->past_virtual_time;
++			now = dilated_running_time + task->virt_start_time;
++		}
++
++		struct timespec tmp = ns_to_timespec(now);
++		if (tloc) {
++			if(put_user(tmp.tv_sec,tloc))
++				return -EFAULT;
++		}
++        force_successful_syscall_return();
++		return tmp.tv_sec;
++		
++	}
++	else{
++		time_t i = get_seconds();
++
++		if (tloc) {
++			if (put_user(i,tloc))
++				return -EFAULT;
++		}
++
++		force_successful_syscall_return();
++		return i;
+ 
+-	if (tloc) {
+-		if (put_user(i,tloc))
+-			return -EFAULT;
+ 	}
+-	force_successful_syscall_return();
+-	return i;
++
++	
+ }
+ 
+ /*
+@@ -98,12 +147,124 @@ SYSCALL_DEFINE1(stime, time_t __user *,
+ 
+ #endif /* __ARCH_WANT_SYS_TIME */
+ 
++SYSCALL_DEFINE3(gettimepid, pid_t, pid, struct timeval __user *, tv,
++                struct timezone __user *, tz)
++{
++	s64 temp_past_physical_time;
++	if (likely(tv != NULL)) {
++		struct timeval ktv;
++		do_gettimeofday(&ktv);
++			struct task_struct* task;
++			rcu_read_lock();
++        		task=pid_task(find_vpid(pid), PIDTYPE_PID);
++        		rcu_read_unlock();
++        		if (task == NULL) {
++				printk(KERN_INFO "Task %d does not exist, can not get virtual time\n", pid);
++				return -EFAULT;
++			}
++		if(task->virt_start_time != 0){
++			if (task->group_leader != task) { //use virtual time of the leader thread
++                        	task = task->group_leader;
++                	}
++			s64 now = timeval_to_ns(&ktv);
++			s32 rem;
++			s64 real_running_time;
++			s64 dilated_running_time;
++			real_running_time = now - task->virt_start_time;
++			if (task->freeze_time != 0)
++				temp_past_physical_time = task->past_physical_time + (now - task->freeze_time);
++			else
++				temp_past_physical_time = task->past_physical_time;
++
++			if (task->dilation_factor > 0) {
++				dilated_running_time = div_s64_rem( (real_running_time - temp_past_physical_time)*1000 ,task->dilation_factor,&rem) + task->past_virtual_time;
++				now = dilated_running_time + task->virt_start_time;
++			}
++			else if (task->dilation_factor < 0) {
++				dilated_running_time = div_s64_rem( (real_running_time - temp_past_physical_time)*(task->dilation_factor*-1),1000,&rem) + task->past_virtual_time;
++				now =  dilated_running_time + task->virt_start_time;
++			}
++			else {
++				dilated_running_time = (real_running_time - temp_past_physical_time) + task->past_virtual_time;
++				now = dilated_running_time + task->virt_start_time;
++			}
++			ktv = ns_to_timeval(now);
++		}
++		if (copy_to_user(tv, &ktv, sizeof(ktv)))
++			return -EFAULT;
++	}
++	if (unlikely(tz != NULL)) {
++		if (copy_to_user(tz, &sys_tz, sizeof(sys_tz)))
++			return -EFAULT;
++	}
++	return 0;
++
++}
++
+ SYSCALL_DEFINE2(gettimeofday, struct timeval __user *, tv,
+ 		struct timezone __user *, tz)
+ {
+ 	if (likely(tv != NULL)) {
+ 		struct timeval ktv;
+ 		do_gettimeofday(&ktv);
++		if(current->virt_start_time != 0){
++			struct task_struct* task;
++        		task = current;
++			if (current->group_leader != current) { //use virtual time of the leader thread
++                        	task = current->group_leader;
++                	}
++			s64 now = timeval_to_ns(&ktv);
++			s32 rem;
++			s64 real_running_time;
++			s64 dilated_running_time;
++			s64 temp_past_physical_time;
++			/*
++			if(task->freeze_time == 0){
++				real_running_time = now - task->virt_start_time;
++			}
++			else{
++				real_running_time = task->freeze_time - task->virt_start_time;
++			}
++			
++			if (task->dilation_factor > 0) {
++				dilated_running_time = div_s64_rem( (real_running_time - task->past_physical_time)*1000 ,task->dilation_factor,&rem) + task->past_virtual_time;
++				now = dilated_running_time + task->virt_start_time;
++			}
++			else if (task->dilation_factor < 0) {
++				dilated_running_time = div_s64_rem( (real_running_time - task->past_physical_time)*(task->dilation_factor*-1),1000,&rem) + task->past_virtual_time;
++				now =  dilated_running_time + task->virt_start_time;
++			}
++			else {
++				dilated_running_time = (real_running_time - task->past_physical_time) + task->past_virtual_time;
++				now = dilated_running_time + task->virt_start_time;
++			}
++			ktv = ns_to_timeval(now);
++			if(task->freeze_time == 0){
++			task->past_physical_time = real_running_time;
++			task->past_virtual_time = dilated_running_time;
++			}*/
++
++			real_running_time = now - task->virt_start_time;
++			if (task->freeze_time != 0)
++				temp_past_physical_time = task->past_physical_time + (now - task->freeze_time);
++			else
++				temp_past_physical_time = task->past_physical_time;
++
++			if (task->dilation_factor > 0) {
++				dilated_running_time = div_s64_rem( (real_running_time - temp_past_physical_time)*1000 ,task->dilation_factor,&rem) + task->past_virtual_time;
++				now = dilated_running_time + task->virt_start_time;
++			}
++			else if (task->dilation_factor < 0) {
++				dilated_running_time = div_s64_rem( (real_running_time - temp_past_physical_time)*(task->dilation_factor*-1),1000,&rem) + task->past_virtual_time;
++				now =  dilated_running_time + task->virt_start_time;
++			}
++			else {
++				dilated_running_time = (real_running_time - temp_past_physical_time) + task->past_virtual_time;
++				now = dilated_running_time + task->virt_start_time;
++			}
++			ktv = ns_to_timeval(now);
++
++		}
+ 		if (copy_to_user(tv, &ktv, sizeof(ktv)))
+ 			return -EFAULT;
+ 	}
+@@ -114,6 +275,22 @@ SYSCALL_DEFINE2(gettimeofday, struct tim
+ 	return 0;
+ }
+ 
++SYSCALL_DEFINE2(gettimeofdayreal, struct timeval __user *, tv,
++                 struct timezone __user *, tz)
++{
++	if (likely(tv != NULL)) {
++                struct timeval ktv;
++                do_gettimeofday(&ktv);
++                if (copy_to_user(tv, &ktv, sizeof(ktv)))
++                        return -EFAULT;
++        }
++        if (unlikely(tz != NULL)) {
++                if (copy_to_user(tz, &sys_tz, sizeof(sys_tz)))
++                        return -EFAULT;
++        }
++        return 0;
++}
++
+ /*
+  * Indicates if there is an offset between the system clock and the hardware
+  * clock/persistent clock/rtc.
+Only in ./linux-3.13.1/kernel: timeconst.bc
+Only in ./linux-3.13.1/kernel: timer.c
+Only in ./linux-3.13.1/kernel: trace
+Only in ./linux-3.13.1/kernel: tracepoint.c
+Only in ./linux-3.13.1/kernel: tsacct.c
+Only in ./linux-3.13.1/kernel: uid16.c
+Only in ./linux-3.13.1/kernel: up.c
+Only in ./linux-3.13.1/kernel: user.c
+Only in ./linux-3.13.1/kernel: user_namespace.c
+Only in ./linux-3.13.1/kernel: user-return-notifier.c
+Only in ./linux-3.13.1/kernel: utsname.c
+Only in ./linux-3.13.1/kernel: utsname_sysctl.c
+Only in ./linux-3.13.1/kernel: watchdog.c
+Only in ./linux-3.13.1/kernel: workqueue.c
+Only in ./linux-3.13.1/kernel: workqueue_internal.h
+Only in ./linux-3.13.1/: lib
+Only in ./linux-3.13.1/: .mailmap
+Only in ./linux-3.13.1/: MAINTAINERS
+Only in ./linux-3.13.1/: Makefile
+Only in ./linux-3.13.1/: mm
+Only in ./linux-3.13.1/net: 802
+Only in ./linux-3.13.1/net: 8021q
+Only in ./linux-3.13.1/net: 9p
+Only in ./linux-3.13.1/net: appletalk
+Only in ./linux-3.13.1/net: atm
+Only in ./linux-3.13.1/net: ax25
+Only in ./linux-3.13.1/net: batman-adv
+Only in ./linux-3.13.1/net: bluetooth
+Only in ./linux-3.13.1/net: bridge
+Only in ./linux-3.13.1/net: caif
+Only in ./linux-3.13.1/net: can
+Only in ./linux-3.13.1/net: ceph
+Only in ./linux-3.13.1/net: compat.c
+Only in ./linux-3.13.1/net/core: datagram.c
+Only in ./linux-3.13.1/net/core: dev_addr_lists.c
+diff -rup ./linux-3.13.1/net/core/dev.c ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/net/core/dev.c
+--- ./linux-3.13.1/net/core/dev.c	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/net/core/dev.c	2017-07-31 09:44:30.000000000 +0800
+@@ -132,6 +132,7 @@
+ #include <linux/hashtable.h>
+ #include <linux/vmalloc.h>
+ #include <linux/if_macvlan.h>
++#include <linux/pid.h>
+ 
+ #include "net-sysfs.h"
+ 
+@@ -1630,16 +1631,37 @@ EXPORT_SYMBOL(net_disable_timestamp);
+ 
+ static inline void net_timestamp_set(struct sk_buff *skb)
+ {
++	if(skb->tstamp.tv64 > 0)
++		return;
++
+ 	skb->tstamp.tv64 = 0;
+ 	if (static_key_false(&netstamp_needed))
+ 		__net_timestamp(skb);
+ }
+ 
++extern s64 get_current_dilated_time(struct task_struct *);
++
++static inline void __set_dilated_timestamp(struct sk_buff * skb, struct pid * owner_pid){
++
++	struct task_struct * result;
++	s64 dilated_time = 0;
++	result = NULL;
++	result = pid_task(owner_pid,PIDTYPE_PID);
++
++	if(result != NULL) {
++		dilated_time = get_current_dilated_time(result);
++		skb->tstamp.tv64 = dilated_time;
++	}
++}
++
+ #define net_timestamp_check(COND, SKB)			\
+-	if (static_key_false(&netstamp_needed)) {		\
++	if (static_key_false(&netstamp_needed)) {	\
++		if((COND) && (SKB)->dev != NULL) {	\
++			if((SKB)->dev->owner_pid > 0)	\
++			 __set_dilated_timestamp(SKB,(SKB)->dev->owner_pid); 	\
++		}					\
+ 		if ((COND) && !(SKB)->tstamp.tv64)	\
+-			__net_timestamp(SKB);		\
+-	}						\
++			__net_timestamp(SKB);   }	\
+ 
+ static inline bool is_skb_forwardable(struct net_device *dev,
+ 				      struct sk_buff *skb)
+@@ -2812,6 +2834,8 @@ int __dev_queue_xmit(struct sk_buff *skb
+ 	struct Qdisc *q;
+ 	int rc = -ENOMEM;
+ 
++     
++
+ 	skb_reset_mac_header(skb);
+ 
+ 	/* Disable soft irqs for various locks below. Also
+@@ -3684,6 +3708,7 @@ static int __netif_receive_skb(struct sk
+  */
+ int netif_receive_skb(struct sk_buff *skb)
+ {
++
+ 	net_timestamp_check(netdev_tstamp_prequeue, skb);
+ 
+ 	if (skb_defer_rx_timestamp(skb))
+Only in ./linux-3.13.1/net/core: dev_ioctl.c
+Only in ./linux-3.13.1/net/core: drop_monitor.c
+Only in ./linux-3.13.1/net/core: dst.c
+Only in ./linux-3.13.1/net/core: ethtool.c
+Only in ./linux-3.13.1/net/core: fib_rules.c
+Only in ./linux-3.13.1/net/core: filter.c
+Only in ./linux-3.13.1/net/core: flow.c
+Only in ./linux-3.13.1/net/core: flow_dissector.c
+Only in ./linux-3.13.1/net/core: gen_estimator.c
+Only in ./linux-3.13.1/net/core: gen_stats.c
+Only in ./linux-3.13.1/net/core: iovec.c
+Only in ./linux-3.13.1/net/core: link_watch.c
+Only in ./linux-3.13.1/net/core: Makefile
+Only in ./linux-3.13.1/net/core: neighbour.c
+Only in ./linux-3.13.1/net/core: netevent.c
+Only in ./linux-3.13.1/net/core: net_namespace.c
+Only in ./linux-3.13.1/net/core: netpoll.c
+Only in ./linux-3.13.1/net/core: netprio_cgroup.c
+Only in ./linux-3.13.1/net/core: net-procfs.c
+Only in ./linux-3.13.1/net/core: net-sysfs.c
+Only in ./linux-3.13.1/net/core: net-sysfs.h
+Only in ./linux-3.13.1/net/core: net-traces.c
+Only in ./linux-3.13.1/net/core: pktgen.c
+Only in ./linux-3.13.1/net/core: request_sock.c
+Only in ./linux-3.13.1/net/core: rtnetlink.c
+Only in ./linux-3.13.1/net/core: scm.c
+Only in ./linux-3.13.1/net/core: secure_seq.c
+Only in ./linux-3.13.1/net/core: skbuff.c
+Only in ./linux-3.13.1/net/core: sock.c
+Only in ./linux-3.13.1/net/core: sock_diag.c
+Only in ./linux-3.13.1/net/core: stream.c
+Only in ./linux-3.13.1/net/core: sysctl_net_core.c
+Only in ./linux-3.13.1/net/core: timestamping.c
+Only in ./linux-3.13.1/net/core: user_dma.c
+Only in ./linux-3.13.1/net/core: utils.c
+Only in ./linux-3.13.1/net: dcb
+Only in ./linux-3.13.1/net: dccp
+Only in ./linux-3.13.1/net: decnet
+Only in ./linux-3.13.1/net: dns_resolver
+Only in ./linux-3.13.1/net: dsa
+Only in ./linux-3.13.1/net: ethernet
+Only in ./linux-3.13.1/net: hsr
+Only in ./linux-3.13.1/net: ieee802154
+Only in ./linux-3.13.1/net: ipv4
+Only in ./linux-3.13.1/net: ipv6
+Only in ./linux-3.13.1/net: ipx
+Only in ./linux-3.13.1/net: irda
+Only in ./linux-3.13.1/net: iucv
+Only in ./linux-3.13.1/net: Kconfig
+Only in ./linux-3.13.1/net: key
+Only in ./linux-3.13.1/net: l2tp
+Only in ./linux-3.13.1/net: lapb
+Only in ./linux-3.13.1/net: llc
+Only in ./linux-3.13.1/net: mac80211
+Only in ./linux-3.13.1/net: mac802154
+Only in ./linux-3.13.1/net: Makefile
+Only in ./linux-3.13.1/net: mpls
+Only in ./linux-3.13.1/net: netfilter
+Only in ./linux-3.13.1/net: netlabel
+Only in ./linux-3.13.1/net: netlink
+Only in ./linux-3.13.1/net: netrom
+Only in ./linux-3.13.1/net: nfc
+Only in ./linux-3.13.1/net: nonet.c
+Only in ./linux-3.13.1/net: openvswitch
+diff -rup ./linux-3.13.1/net/packet/af_packet.c ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/net/packet/af_packet.c
+--- ./linux-3.13.1/net/packet/af_packet.c	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/net/packet/af_packet.c	2017-07-31 09:44:30.000000000 +0800
+@@ -89,6 +89,7 @@
+ #include <linux/errqueue.h>
+ #include <linux/net_tstamp.h>
+ #include <linux/reciprocal_div.h>
++#include <linux/pid.h>
+ #ifdef CONFIG_INET
+ #include <net/inet_common.h>
+ #endif
+@@ -165,6 +166,68 @@ union tpacket_uhdr {
+ 	void *raw;
+ };
+ 
++extern struct pid * find_vpid(int);
++extern s64 get_current_dilated_time(struct task_struct *);
++
++/*
++s64 get_current_dilated_time(struct task_struct *task)
++{
++	s64 temp_past_physical_time;
++	struct timeval tv;
++	s64 virt_start_time;
++	s64 freeze_time;
++	s64 task_past_physical_time;
++	s64 past_virtual_time;
++	int dilation_factor;
++	s64 now;
++
++	do_gettimeofday(&tv);
++	now = timeval_to_ns(&tv);
++
++	if(task == NULL)
++		return now;
++
++
++	virt_start_time = task->virt_start_time;
++	freeze_time = task->freeze_time;
++	task_past_physical_time = task->past_physical_time;
++	past_virtual_time = task->past_virtual_time;
++	dilation_factor = task->dilation_factor;
++	
++
++	if(virt_start_time > 0){
++	
++		s32 rem;
++		s64 real_running_time;
++		s64 dilated_running_time;
++		real_running_time = now - virt_start_time;
++		if (freeze_time != 0)
++			temp_past_physical_time = task_past_physical_time + (now - freeze_time);
++		else
++			temp_past_physical_time = task_past_physical_time;
++
++		if (dilation_factor > 0) {
++			dilated_running_time = div_s64_rem( (real_running_time - temp_past_physical_time)*1000 ,dilation_factor,&rem) + past_virtual_time;
++                    
++			now = dilated_running_time + virt_start_time;
++		}
++		else if (dilation_factor < 0) {
++			dilated_running_time = div_s64_rem( (real_running_time - temp_past_physical_time)*(dilation_factor*-1),1000,&rem) + past_virtual_time;
++			now =  dilated_running_time + virt_start_time;
++
++		}
++		else {
++			dilated_running_time = (real_running_time - temp_past_physical_time) + past_virtual_time;
++			now = dilated_running_time + virt_start_time;
++
++		}
++	
++	}
++
++	return now;
++
++}*/
++
+ static int packet_set_ring(struct sock *sk, union tpacket_req_u *req_u,
+ 		int closing, int tx_ring);
+ 
+@@ -1414,7 +1477,6 @@ static int packet_rcv_spkt(struct sk_buf
+ {
+ 	struct sock *sk;
+ 	struct sockaddr_pkt *spkt;
+-
+ 	/*
+ 	 *	When we registered the protocol we saved the socket in the data
+ 	 *	field for just this event.
+@@ -1461,6 +1523,7 @@ static int packet_rcv_spkt(struct sk_buf
+ 	strlcpy(spkt->spkt_device, dev->name, sizeof(spkt->spkt_device));
+ 	spkt->spkt_protocol = skb->protocol;
+ 
++	
+ 	/*
+ 	 *	Charge the memory to the socket. This is done specifically
+ 	 *	to prevent sockets using all the memory up.
+@@ -1757,6 +1820,13 @@ static int tpacket_rcv(struct sk_buff *s
+ 	struct sk_buff *copy_skb = NULL;
+ 	struct timespec ts;
+ 	__u32 ts_status;
++	struct timespec new_time;
++	getnstimeofday(&new_time);
++	
++
++	if(skb->tstamp.tv64 > 0) {
++		new_time = ns_to_timespec(skb->tstamp.tv64);
++	}	
+ 
+ 	if (skb->pkt_type == PACKET_LOOPBACK)
+ 		goto drop;
+@@ -1851,8 +1921,8 @@ static int tpacket_rcv(struct sk_buff *s
+ 		h.h1->tp_snaplen = snaplen;
+ 		h.h1->tp_mac = macoff;
+ 		h.h1->tp_net = netoff;
+-		h.h1->tp_sec = ts.tv_sec;
+-		h.h1->tp_usec = ts.tv_nsec / NSEC_PER_USEC;
++		h.h1->tp_sec = new_time.tv_sec;
++		h.h1->tp_usec = new_time.tv_nsec / NSEC_PER_USEC;
+ 		hdrlen = sizeof(*h.h1);
+ 		break;
+ 	case TPACKET_V2:
+@@ -1860,8 +1930,8 @@ static int tpacket_rcv(struct sk_buff *s
+ 		h.h2->tp_snaplen = snaplen;
+ 		h.h2->tp_mac = macoff;
+ 		h.h2->tp_net = netoff;
+-		h.h2->tp_sec = ts.tv_sec;
+-		h.h2->tp_nsec = ts.tv_nsec;
++		h.h2->tp_sec = new_time.tv_sec;
++		h.h2->tp_nsec = new_time.tv_nsec;
+ 		if (vlan_tx_tag_present(skb)) {
+ 			h.h2->tp_vlan_tci = vlan_tx_tag_get(skb);
+ 			status |= TP_STATUS_VLAN_VALID;
+@@ -1880,8 +1950,8 @@ static int tpacket_rcv(struct sk_buff *s
+ 		h.h3->tp_snaplen = snaplen;
+ 		h.h3->tp_mac = macoff;
+ 		h.h3->tp_net = netoff;
+-		h.h3->tp_sec  = ts.tv_sec;
+-		h.h3->tp_nsec = ts.tv_nsec;
++		h.h3->tp_sec  = new_time.tv_sec;
++		h.h3->tp_nsec = new_time.tv_nsec;
+ 		hdrlen = sizeof(*h.h3);
+ 		break;
+ 	default:
+Only in ./linux-3.13.1/net/packet: diag.c
+Only in ./linux-3.13.1/net/packet: internal.h
+Only in ./linux-3.13.1/net/packet: Kconfig
+Only in ./linux-3.13.1/net/packet: Makefile
+Only in ./linux-3.13.1/net: phonet
+Only in ./linux-3.13.1/net: rds
+Only in ./linux-3.13.1/net: rfkill
+Only in ./linux-3.13.1/net: rose
+Only in ./linux-3.13.1/net: rxrpc
+Only in ./linux-3.13.1/net/sched: act_api.c
+Only in ./linux-3.13.1/net/sched: act_csum.c
+Only in ./linux-3.13.1/net/sched: act_gact.c
+Only in ./linux-3.13.1/net/sched: act_ipt.c
+Only in ./linux-3.13.1/net/sched: act_mirred.c
+Only in ./linux-3.13.1/net/sched: act_nat.c
+Only in ./linux-3.13.1/net/sched: act_pedit.c
+Only in ./linux-3.13.1/net/sched: act_police.c
+Only in ./linux-3.13.1/net/sched: act_simple.c
+Only in ./linux-3.13.1/net/sched: act_skbedit.c
+Only in ./linux-3.13.1/net/sched: cls_api.c
+Only in ./linux-3.13.1/net/sched: cls_basic.c
+Only in ./linux-3.13.1/net/sched: cls_bpf.c
+Only in ./linux-3.13.1/net/sched: cls_cgroup.c
+Only in ./linux-3.13.1/net/sched: cls_flow.c
+Only in ./linux-3.13.1/net/sched: cls_fw.c
+Only in ./linux-3.13.1/net/sched: cls_route.c
+Only in ./linux-3.13.1/net/sched: cls_rsvp6.c
+Only in ./linux-3.13.1/net/sched: cls_rsvp.c
+Only in ./linux-3.13.1/net/sched: cls_rsvp.h
+Only in ./linux-3.13.1/net/sched: cls_tcindex.c
+Only in ./linux-3.13.1/net/sched: cls_u32.c
+Only in ./linux-3.13.1/net/sched: ematch.c
+Only in ./linux-3.13.1/net/sched: em_canid.c
+Only in ./linux-3.13.1/net/sched: em_cmp.c
+Only in ./linux-3.13.1/net/sched: em_ipset.c
+Only in ./linux-3.13.1/net/sched: em_meta.c
+Only in ./linux-3.13.1/net/sched: em_nbyte.c
+Only in ./linux-3.13.1/net/sched: em_text.c
+Only in ./linux-3.13.1/net/sched: em_u32.c
+Only in ./linux-3.13.1/net/sched: Kconfig
+Only in ./linux-3.13.1/net/sched: Makefile
+diff -rup ./linux-3.13.1/net/sched/sch_api.c ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/net/sched/sch_api.c
+--- ./linux-3.13.1/net/sched/sch_api.c	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/net/sched/sch_api.c	2017-07-31 09:44:30.000000000 +0800
+@@ -29,6 +29,7 @@
+ #include <linux/hrtimer.h>
+ #include <linux/lockdep.h>
+ #include <linux/slab.h>
++#include <linux/netdevice.h>
+ 
+ #include <net/net_namespace.h>
+ #include <net/sock.h>
+@@ -579,14 +580,181 @@ static enum hrtimer_restart qdisc_watchd
+ 	return HRTIMER_NORESTART;
+ }
+ 
++extern struct pid *find_vpid(int);
++extern struct task_struct *find_task_by_pid(int);
++
++s64 get_current_dilated_time(struct task_struct *task)
++{
++	s64 temp_past_physical_time;
++	struct timeval tv;
++	s64 virt_start_time;
++	s64 freeze_time;
++	s64 task_past_physical_time;
++	s64 past_virtual_time;
++	int dilation_factor;
++	s64 now;
++
++	do_gettimeofday(&tv);
++	now = timeval_to_ns(&tv);
++
++	if(task == NULL)
++		return now;
++
++	virt_start_time = task->virt_start_time;
++	freeze_time = task->freeze_time;
++	task_past_physical_time = task->past_physical_time;
++	past_virtual_time = task->past_virtual_time;
++	dilation_factor = task->dilation_factor;
++
++	if(virt_start_time > 0){
++	
++		s32 rem;
++		s64 real_running_time;
++		s64 dilated_running_time;
++		real_running_time = now - virt_start_time;
++		if (freeze_time != 0)
++			temp_past_physical_time = task_past_physical_time + (now - freeze_time);
++		else
++			temp_past_physical_time = task_past_physical_time;
++
++		if (dilation_factor > 0) {
++			dilated_running_time = div_s64_rem( (real_running_time - temp_past_physical_time)*1000 ,dilation_factor,&rem) + past_virtual_time;
++                    
++			now = dilated_running_time + virt_start_time;
++		}
++		else if (dilation_factor < 0) {
++			dilated_running_time = div_s64_rem( (real_running_time - temp_past_physical_time)*(dilation_factor*-1),1000,&rem) + past_virtual_time;
++			now =  dilated_running_time + virt_start_time;
++
++		}
++		else {
++			dilated_running_time = (real_running_time - temp_past_physical_time) + past_virtual_time;
++			now = dilated_running_time + virt_start_time;
++		}
++	
++	}
++
++	return now;
++
++}
++
++EXPORT_SYMBOL(get_current_dilated_time);
++
++struct task_struct * get_task_struct_from_qdisc(struct Qdisc * qdisc) {
++
++    struct netem_sched_data *q = qdisc_priv(qdisc);
++    struct qdisc_watchdog * wd = &q->watchdog;
++    struct pid *owner_pid;
++    struct task_struct * result;
++
++    if(wd->owner_pid > 0) {
++	 
++	 owner_pid = wd->owner_pid;
++	 result = pid_task(owner_pid, PIDTYPE_PID);
++         return result;
++
++   }
++
++    if(qdisc != NULL) {
++       if(qdisc->dev_queue != NULL) {
++         if(qdisc->dev_queue->dev != NULL) {
++            read_lock(&dev_base_lock);
++            if(qdisc->dev_queue->dev->owner_pid > 0) {
++	      owner_pid = qdisc->dev_queue->dev->owner_pid;
++	      read_unlock(&dev_base_lock);
++	      result = pid_task(owner_pid, PIDTYPE_PID);
++              if(result != NULL) {
++		wd->owner_pid = owner_pid;
++	      }
++	      return result;
++            }
++            read_unlock(&dev_base_lock);
++         }
++       }
++    }
++
++    return NULL;
++}
++
++EXPORT_SYMBOL(get_task_struct_from_qdisc);
++
++
++
++static enum hrtimer_restart qdisc_watchdog_dilated(struct hrtimer *timer)
++{
++       
++       struct netem_skb_cb * cb = NULL;
++       struct task_struct * pkt_owner = NULL;
++       s64 current_dilated_time = 0;
++       struct qdisc_watchdog *wd = container_of(timer, struct qdisc_watchdog, timer_dilated);
++	
++       if(wd->skb == NULL)
++	 	 cb = NULL;
++       else
++       	 cb = netem_skb_cb(wd->skb);
++       
++       pkt_owner = get_task_struct_from_qdisc(wd->qdisc);
++
++       if (pkt_owner == NULL || cb == NULL)
++       {
++
++	    if(pkt_owner == NULL)
++		printk(KERN_INFO "Netem: pkt_owner is null. Maybe sending early. Pid = %d\n", wd->owner_pid);
++
++	    if(cb == NULL)
++		printk(KERN_INFO "Netem: cb is null. Maybe sending early. Pid = %d\n", wd->owner_pid);
++
++	    qdisc_unthrottled(wd->qdisc);
++	    __netif_schedule(qdisc_root(wd->qdisc));
++	   return HRTIMER_NORESTART;
++       }
++  
++       current_dilated_time = get_current_dilated_time(pkt_owner);
++        
++       if (PSCHED_NS2TICKS(current_dilated_time) >= cb->time_to_send) 
++       {
++	    qdisc_unthrottled(wd->qdisc);
++	    __netif_schedule(qdisc_root(wd->qdisc));
++
++	   return HRTIMER_NORESTART;
++        }  
++        else
++        {
++	   hrtimer_forward_now(timer,ns_to_ktime(100000));	
++	   return HRTIMER_RESTART;
++        }
++}
++
++
+ void qdisc_watchdog_init(struct qdisc_watchdog *wd, struct Qdisc *qdisc)
+ {
+ 	hrtimer_init(&wd->timer, CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
++	hrtimer_init(&wd->timer_dilated, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+ 	wd->timer.function = qdisc_watchdog;
++        wd->timer_dilated.function = qdisc_watchdog_dilated;
+ 	wd->qdisc = qdisc;
++	wd->owner_pid = 0;
+ }
+ EXPORT_SYMBOL(qdisc_watchdog_init);
+ 
++
++void qdisc_watchdog_schedule_ns_dilated(struct qdisc_watchdog *wd, u64 expires)
++{
++	if (test_bit(__QDISC_STATE_DEACTIVATED,
++		     &qdisc_root_sleeping(wd->qdisc)->state))
++		return;
++
++	qdisc_throttled(wd->qdisc);
++
++	hrtimer_start(&wd->timer_dilated,
++		      ns_to_ktime(1000000),
++		      HRTIMER_MODE_REL);
++
++}
++
++EXPORT_SYMBOL(qdisc_watchdog_schedule_ns_dilated);
++
++
+ void qdisc_watchdog_schedule_ns(struct qdisc_watchdog *wd, u64 expires)
+ {
+ 	if (test_bit(__QDISC_STATE_DEACTIVATED,
+@@ -604,6 +772,7 @@ EXPORT_SYMBOL(qdisc_watchdog_schedule_ns
+ void qdisc_watchdog_cancel(struct qdisc_watchdog *wd)
+ {
+ 	hrtimer_cancel(&wd->timer);
++        hrtimer_cancel(&wd->timer_dilated);
+ 	qdisc_unthrottled(wd->qdisc);
+ }
+ EXPORT_SYMBOL(qdisc_watchdog_cancel);
+Only in ./linux-3.13.1/net/sched: sch_atm.c
+Only in ./linux-3.13.1/net/sched: sch_blackhole.c
+Only in ./linux-3.13.1/net/sched: sch_cbq.c
+Only in ./linux-3.13.1/net/sched: sch_choke.c
+Only in ./linux-3.13.1/net/sched: sch_codel.c
+Only in ./linux-3.13.1/net/sched: sch_drr.c
+Only in ./linux-3.13.1/net/sched: sch_dsmark.c
+Only in ./linux-3.13.1/net/sched: sch_fifo.c
+Only in ./linux-3.13.1/net/sched: sch_fq.c
+Only in ./linux-3.13.1/net/sched: sch_fq_codel.c
+Only in ./linux-3.13.1/net/sched: sch_generic.c
+Only in ./linux-3.13.1/net/sched: sch_gred.c
+Only in ./linux-3.13.1/net/sched: sch_hfsc.c
+Only in ./linux-3.13.1/net/sched: sch_htb.c
+Only in ./linux-3.13.1/net/sched: sch_ingress.c
+Only in ./linux-3.13.1/net/sched: sch_mq.c
+Only in ./linux-3.13.1/net/sched: sch_mqprio.c
+Only in ./linux-3.13.1/net/sched: sch_multiq.c
+diff -rup ./linux-3.13.1/net/sched/sch_netem.c ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/net/sched/sch_netem.c
+--- ./linux-3.13.1/net/sched/sch_netem.c	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/net/sched/sch_netem.c	2017-07-31 09:44:30.000000000 +0800
+@@ -24,10 +24,15 @@
+ #include <linux/rtnetlink.h>
+ #include <linux/reciprocal_div.h>
+ #include <linux/rbtree.h>
++#include <linux/fs.h>
++#include <linux/pid.h>
++
+ 
+ #include <net/netlink.h>
+ #include <net/pkt_sched.h>
+ #include <net/inet_ecn.h>
++#include <net/sock.h>
++
+ 
+ #define VERSION "1.3"
+ 
+@@ -68,71 +73,6 @@
+ 		 Fabio Ludovici <fabio.ludovici at yahoo.it>
+ */
+ 
+-struct netem_sched_data {
+-	/* internal t(ime)fifo qdisc uses t_root and sch->limit */
+-	struct rb_root t_root;
+-
+-	/* optional qdisc for classful handling (NULL at netem init) */
+-	struct Qdisc	*qdisc;
+-
+-	struct qdisc_watchdog watchdog;
+-
+-	psched_tdiff_t latency;
+-	psched_tdiff_t jitter;
+-
+-	u32 loss;
+-	u32 ecn;
+-	u32 limit;
+-	u32 counter;
+-	u32 gap;
+-	u32 duplicate;
+-	u32 reorder;
+-	u32 corrupt;
+-	u32 rate;
+-	s32 packet_overhead;
+-	u32 cell_size;
+-	u32 cell_size_reciprocal;
+-	s32 cell_overhead;
+-
+-	struct crndstate {
+-		u32 last;
+-		u32 rho;
+-	} delay_cor, loss_cor, dup_cor, reorder_cor, corrupt_cor;
+-
+-	struct disttable {
+-		u32  size;
+-		s16 table[0];
+-	} *delay_dist;
+-
+-	enum  {
+-		CLG_RANDOM,
+-		CLG_4_STATES,
+-		CLG_GILB_ELL,
+-	} loss_model;
+-
+-	/* Correlated Loss Generation models */
+-	struct clgstate {
+-		/* state of the Markov chain */
+-		u8 state;
+-
+-		/* 4-states and Gilbert-Elliot models */
+-		u32 a1;	/* p13 for 4-states or p for GE */
+-		u32 a2;	/* p31 for 4-states or r for GE */
+-		u32 a3;	/* p32 for 4-states or h for GE */
+-		u32 a4;	/* p14 for 4-states or 1-k for GE */
+-		u32 a5; /* p23 used only in 4-states */
+-	} clg;
+-
+-};
+-
+-/* Time stamp put into socket buffer control block
+- * Only valid when skbs are in our internal t(ime)fifo queue.
+- */
+-struct netem_skb_cb {
+-	psched_time_t	time_to_send;
+-	ktime_t		tstamp_save;
+-};
+-
+ /* Because space in skb->cb[] is tight, netem overloads skb->next/prev/tstamp
+  * to hold a rb_node structure.
+  *
+@@ -155,13 +95,14 @@ static struct sk_buff *netem_rb_to_skb(s
+ {
+ 	return (struct sk_buff *)rb;
+ }
+-
++/*
+ static inline struct netem_skb_cb *netem_skb_cb(struct sk_buff *skb)
+ {
+-	/* we assume we can use skb next/prev/tstamp as storage for rb_node */
++	// we assume we can use skb next/prev/tstamp as storage for rb_node 
+ 	qdisc_cb_private_validate(skb, sizeof(struct netem_skb_cb));
+ 	return (struct netem_skb_cb *)qdisc_skb_cb(skb)->data;
+ }
++*/
+ 
+ /* init_crandom - initialize correlated random number generator
+  * Use entropy source for initial seed.
+@@ -466,6 +407,7 @@ static int netem_enqueue(struct sk_buff
+ 	sch->qstats.backlog += qdisc_pkt_len(skb);
+ 
+ 	cb = netem_skb_cb(skb);
++
+ 	if (q->gap == 0 ||		/* not doing reordering */
+ 	    q->counter < q->gap - 1 ||	/* inside last reordering gap */
+ 	    q->reorder < get_crandom(&q->reorder_cor)) {
+@@ -476,8 +418,11 @@ static int netem_enqueue(struct sk_buff
+ 				  &q->delay_cor, q->delay_dist);
+ 
+ 		now = psched_get_time();
++	        struct task_struct *ts = get_task_struct_from_qdisc(sch);
++
+ 
+ 		if (q->rate) {
++
+ 			struct sk_buff *last;
+ 
+ 			if (!skb_queue_empty(&sch->q))
+@@ -495,11 +440,24 @@ static int netem_enqueue(struct sk_buff
+ 				now = netem_skb_cb(last)->time_to_send;
+ 			}
+ 
++
+ 			delay += packet_len_2_sched_time(skb->len, q);
++			printk(KERN_INFO "Netem: Possibly updating delay. New delay = %lu\n", delay);
+ 		}
+ 
+-		cb->time_to_send = now + delay;
+-		cb->tstamp_save = skb->tstamp;
++
++                if (ts != NULL) 
++                {
++					s64 dilated_time = get_current_dilated_time(ts);
++					cb->time_to_send = delay + PSCHED_NS2TICKS(dilated_time);
++					cb->tstamp_save = ns_to_ktime(dilated_time);
++                }
++                else
++                {
++					cb->time_to_send = now + delay;
++					cb->tstamp_save = skb->tstamp;
++
++                }
+ 		++q->counter;
+ 		tfifo_enqueue(skb, sch);
+ 	} else {
+@@ -507,7 +465,20 @@ static int netem_enqueue(struct sk_buff
+ 		 * Do re-ordering by putting one out of N packets at the front
+ 		 * of the queue.
+ 		 */
+-		cb->time_to_send = psched_get_time();
++
++		printk(KERN_INFO "Netem: Doing some re-ordering on 1 out of N packets\n");
++
++		struct task_struct *ts = get_task_struct_from_qdisc(sch);
++                if (ts != NULL)
++                {  
++		   s64 dilated_time = get_current_dilated_time(ts);
++                   cb->time_to_send = PSCHED_NS2TICKS(dilated_time); 
++                }
++                else
++                {
++                   cb->time_to_send = psched_get_time();
++                }
++
+ 		q->counter = 0;
+ 
+ 		__skb_queue_head(&sch->q, skb);
+@@ -556,6 +527,7 @@ static struct sk_buff *netem_dequeue(str
+ 	if (qdisc_is_throttled(sch))
+ 		return NULL;
+ 
++
+ tfifo_dequeue:
+ 	skb = __skb_dequeue(&sch->q);
+ 	if (skb) {
+@@ -568,12 +540,25 @@ deliver:
+ 	p = rb_first(&q->t_root);
+ 	if (p) {
+ 		psched_time_t time_to_send;
++                psched_time_t curr_time;
+ 
+ 		skb = netem_rb_to_skb(p);
+ 
+-		/* if more time remaining? */
+-		time_to_send = netem_skb_cb(skb)->time_to_send;
+-		if (time_to_send <= psched_get_time()) {
++                struct task_struct *ts = get_task_struct_from_qdisc(sch);
++    		if (ts == NULL) 
++                { 
++
++		  time_to_send = netem_skb_cb(skb)->time_to_send;
++                  curr_time = psched_get_time();
++                }
++                else
++                {
++		  time_to_send = netem_skb_cb(skb)->time_to_send;
++                  curr_time = PSCHED_NS2TICKS(get_current_dilated_time(ts));
++                }
++
++		if (time_to_send <= curr_time) {
++
+ 			rb_erase(p, &q->t_root);
+ 
+ 			sch->q.qlen--;
+@@ -609,7 +594,16 @@ deliver:
+ 			if (skb)
+ 				goto deliver;
+ 		}
+-		qdisc_watchdog_schedule(&q->watchdog, time_to_send);
++                if(ts == NULL)
++                {
++		    qdisc_watchdog_schedule(&q->watchdog, time_to_send);
++                }
++                else
++                { 
++                    q->watchdog.skb = skb;
++		    qdisc_watchdog_schedule_dilated(&q->watchdog, time_to_send);
++                }
++                     
+ 	}
+ 
+ 	if (q->qdisc) {
+Only in ./linux-3.13.1/net/sched: sch_plug.c
+Only in ./linux-3.13.1/net/sched: sch_prio.c
+Only in ./linux-3.13.1/net/sched: sch_qfq.c
+Only in ./linux-3.13.1/net/sched: sch_red.c
+Only in ./linux-3.13.1/net/sched: sch_sfb.c
+Only in ./linux-3.13.1/net/sched: sch_sfq.c
+Only in ./linux-3.13.1/net/sched: sch_tbf.c
+Only in ./linux-3.13.1/net/sched: sch_teql.c
+Only in ./linux-3.13.1/net: sctp
+diff -rup ./linux-3.13.1/net/socket.c ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/net/socket.c
+--- ./linux-3.13.1/net/socket.c	2014-01-29 21:06:37.000000000 +0800
++++ ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/net/socket.c	2017-07-31 09:44:30.000000000 +0800
+@@ -386,6 +386,9 @@ struct file *sock_alloc_file(struct sock
+ 	sock->file = file;
+ 	file->f_flags = O_RDWR | (flags & O_NONBLOCK);
+ 	file->private_data = sock;
++
++        f_setown(sock->file,current->pid,1);
++
+ 	return file;
+ }
+ EXPORT_SYMBOL(sock_alloc_file);
+Only in ./linux-3.13.1/net: sunrpc
+Only in ./linux-3.13.1/net: sysctl_net.c
+Only in ./linux-3.13.1/net: tipc
+Only in ./linux-3.13.1/net: unix
+Only in ./linux-3.13.1/net: vmw_vsock
+Only in ./linux-3.13.1/net: wimax
+Only in ./linux-3.13.1/net: wireless
+Only in ./linux-3.13.1/net: x25
+Only in ./linux-3.13.1/net: xfrm
+Only in ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/: old_changes
+Only in ./linux-3.13.1/: README
+Only in ./linux-3.13.1/: REPORTING-BUGS
+Only in ./linux-3.13.1/: samples
+Only in ./linux-3.13.1/: scripts
+Only in ./linux-3.13.1/: security
+Only in ./TimeKeeper-3.0-master/dilation-code/src/kernel_changes/linux-3.13.1/: setup.sh
+Only in ./linux-3.13.1/: sound
+Only in ./linux-3.13.1/: tools
+Only in ./linux-3.13.1/: usr
+Only in ./linux-3.13.1/: virt
